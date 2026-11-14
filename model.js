@@ -1,6 +1,6 @@
-// Расчёты: клёв, видимость, непогода, луна. Это точный перенос формул из Android-приложения.
+// Calculations: bite, visibility, bad weather, moon. An exact port of the formulas from the Android app.
 
-// ---------- Луна ----------
+// ---------- Moon ----------
 function moonAgeAtMs(ms) {
   const newMoonRef = 947182440000;
   const synodic = 29.530588853;
@@ -9,23 +9,23 @@ function moonAgeAtMs(ms) {
   return age < 0 ? age + synodic : age;
 }
 
-// daysAhead: на сколько дней вперёд считать (0 = сейчас)
+// daysAhead: how many days ahead to calculate (0 = now)
 function moonAge(daysAhead = 0) {
   return moonAgeAtMs(Date.now() + daysAhead * 86400000);
 }
 
 function moonPhaseName(age) {
-  if (age < 1.5 || age >= 28.0) return tr('Новолуние', 'New moon', 'Mlad mjesec');
-  if (age < 6.4) return tr('Растущий серп', 'Waxing crescent', 'Rastući srp');
-  if (age < 8.4) return tr('Первая четверть', 'First quarter', 'Prva četvrt');
-  if (age < 13.8) return tr('Растущая луна', 'Waxing gibbous', 'Mjesec raste');
-  if (age < 15.8) return tr('Полнолуние', 'Full moon', 'Pun mjesec');
-  if (age < 21.1) return tr('Убывающая луна', 'Waning gibbous', 'Mjesec opada');
-  if (age < 23.1) return tr('Последняя четверть', 'Last quarter', 'Posljednja četvrt');
-  return tr('Убывающий серп', 'Waning crescent', 'Opadajući srp');
+  if (age < 1.5 || age >= 28.0) return tr('New moon', 'Mlad mjesec');
+  if (age < 6.4) return tr('Waxing crescent', 'Rastući srp');
+  if (age < 8.4) return tr('First quarter', 'Prva četvrt');
+  if (age < 13.8) return tr('Waxing gibbous', 'Mjesec raste');
+  if (age < 15.8) return tr('Full moon', 'Pun mjesec');
+  if (age < 21.1) return tr('Waning gibbous', 'Mjesec opada');
+  if (age < 23.1) return tr('Last quarter', 'Posljednja četvrt');
+  return tr('Waning crescent', 'Opadajući srp');
 }
 
-// ---------- Видимость под водой ----------
+// ---------- Underwater visibility ----------
 function clarityScore(d) {
   let score = 9.0;
   const wave = isNaN_(d.waveHeight) ? 0.5 : d.waveHeight;
@@ -37,23 +37,23 @@ function clarityScore(d) {
 }
 const visibilityMeters = score => Math.round(2 + (score - 1) * 2.5);
 function clarityLabel(score) {
-  if (score >= 8) return tr('очень чистая', 'very clear', 'veoma bistra');
-  if (score >= 6) return tr('хорошая', 'good', 'dobra');
-  if (score >= 4) return tr('средняя', 'average', 'srednja');
-  return tr('мутная', 'murky', 'mutna');
+  if (score >= 8) return tr('very clear', 'veoma bistra');
+  if (score >= 6) return tr('good', 'dobra');
+  if (score >= 4) return tr('average', 'srednja');
+  return tr('murky', 'mutna');
 }
 
 function trendLabel(t) {
   if (isNaN_(t)) return noData();
-  const word = t < -2.0 ? tr('быстро падает', 'falling fast', 'brzo pada')
-    : t < -0.5 ? tr('медленно падает', 'falling slowly', 'sporo pada')
-      : t <= 0.5 ? tr('стабильно', 'steady', 'stabilan')
-        : t <= 2.0 ? tr('медленно растёт', 'rising slowly', 'sporo raste')
-          : tr('быстро растёт', 'rising fast', 'brzo raste');
-  return `${word} (${sgn(t, 1)} ${U.hpa()} ${tr('за 3 ч', 'per 3 h', 'za 3 h')})`;
+  const word = t < -2.0 ? tr('falling fast', 'brzo pada')
+    : t < -0.5 ? tr('falling slowly', 'sporo pada')
+      : t <= 0.5 ? tr('steady', 'stabilan')
+        : t <= 2.0 ? tr('rising slowly', 'sporo raste')
+          : tr('rising fast', 'brzo raste');
+  return `${word} (${sgn(t, 1)} ${U.hpa()} ${tr('per 3 h', 'za 3 h')})`;
 }
 
-// ---------- Модель клёва ----------
+// ---------- Bite model ----------
 function interp(x, pts) {
   if (x <= pts[0][0]) return pts[0][1];
   if (x >= pts[pts.length - 1][0]) return pts[pts.length - 1][1];
@@ -65,9 +65,9 @@ function interp(x, pts) {
   return pts[pts.length - 1][1];
 }
 
-// Давление: по исследованиям эффект слабый, поэтому вес небольшой
+// Pressure: studies show a weak effect, so the weight is small
 const trendAdjPts = [[-8, 0], [-6, 0.3], [-3.4, 0.9], [-1.5, 0.6], [-0.5, 0.2], [0, 0], [1, -0.25], [3, -0.7], [6, -1.1]];
-// Ветер и волна больше про комфорт и безопасность, чем про клёв: рыба клюёт и в ветер, и в волну. Вес мягкий.
+// Wind and waves are more about comfort and safety than about the bite: fish bite in wind and in waves. The weight is mild.
 const windAdjPts = [[0, -0.2], [2, 0.2], [4, 0.3], [7, 0], [10, -0.5], [13, -1.2], [16, -2.0]];
 const waveAdjPts = [[0, 0.2], [0.3, 0.2], [0.6, 0], [1.0, -0.3], [1.5, -0.8], [2.5, -1.8]];
 const surfWindAdjPts = [[0, -0.8], [3, -0.2], [6, 0.6], [9, 1.0], [11, 0.6], [13, 0], [16, -1.5]];
@@ -106,37 +106,37 @@ function biteModel(p) {
     if (p.pressureHpa > 1025.0 && !isNaN_(p.cloudPct) && p.cloudPct < 30.0) pAdj -= 0.7;
     else if (p.pressureHpa < 1000.0) pAdj -= 0.3;
   }
-  adj.push([tr('Давление и тренд', 'Pressure and trend', 'Pritisak i trend'), pAdj]);
+  adj.push([tr('Pressure and trend', 'Pritisak i trend'), pAdj]);
 
   const surf = p.fish.surf && !p.boat;
   const windRaw = isNaN_(p.windMs) ? 4.0 : p.windMs;
   const windEff0 = isNaN_(p.gustMs) ? windRaw : Math.max(windRaw, p.gustMs * 0.55);
   const windEff = p.boat ? windEff0 * 1.15 : windEff0;
-  adj.push([tr('Ветер', 'Wind', 'Vjetar'), interp(windEff, surf ? surfWindAdjPts : windAdjPts)]);
+  adj.push([tr('Wind', 'Vjetar'), interp(windEff, surf ? surfWindAdjPts : windAdjPts)]);
 
   const waveRaw = isNaN_(p.waveM) ? 0.5 : p.waveM;
   const waveEff = p.boat ? waveRaw * 1.2 : waveRaw;
-  adj.push([tr('Волна', 'Waves', 'Talasi'), interp(waveEff, surf ? surfWaveAdjPts : waveAdjPts)]);
+  adj.push([tr('Waves', 'Talasi'), interp(waveEff, surf ? surfWaveAdjPts : waveAdjPts)]);
 
-  adj.push([tr('Облачность', 'Cloud cover', 'Oblačnost'), isNaN_(p.cloudPct) ? 0.0 : interp(p.cloudPct, cloudAdjPts)]);
+  adj.push([tr('Cloud cover', 'Oblačnost'), isNaN_(p.cloudPct) ? 0.0 : interp(p.cloudPct, cloudAdjPts)]);
 
   let rAdj = isNaN_(p.rainMm) ? 0.0 : interp(p.rainMm, rainAdjPts);
   if (p.thunder) rAdj -= 2.5;
-  adj.push([tr('Осадки и гроза', 'Rain and thunderstorm', 'Padavine i grmljavina'), rAdj]);
+  adj.push([tr('Rain and thunderstorm', 'Padavine i grmljavina'), rAdj]);
 
-  adj.push([tr('Изменение температуры воды', 'Water temperature change', 'Promjena temperature vode'),
+  adj.push([tr('Water temperature change', 'Promjena temperature vode'),
     isNaN_(p.tempChange) ? 0.0 : interp(p.tempChange, tempChangeAdjPts)]);
 
   const half = 29.530588853 / 2.0;
   const m = p.moonDays % half;
   const d = Math.min(m, half - m);
-  adj.push([tr('Луна', 'Moon', 'Mjesec'), 0.3 - 0.5 * (d / (half / 2.0))]);
+  adj.push([tr('Moon', 'Mjesec'), 0.3 - 0.5 * (d / (half / 2.0))]);
 
   const score = clamp(base + adj.reduce((s, a) => s + a[1], 0), 1.0, 10.0);
   return { score, base, adjustments: adj };
 }
 
-// ms: момент оценки, по умолчанию сейчас
+// ms: the moment to evaluate, now by default
 function biteExplain(data, fish, boat, ms) {
   const now = nowLocal(ms);
   const r = biteModel({
@@ -146,18 +146,18 @@ function biteExplain(data, fish, boat, ms) {
     windMs: data.wind, gustMs: data.gust, waveM: data.waveHeight,
     cloudPct: data.cloud, rainMm: data.rainNow * 3.0, thunder: false, moonDays: moonAgeAtMs(ms || Date.now())
   });
-  // время суток входит и в оценку «сейчас» (раньше было только в графике по часам)
+  // time of day counts in the "now" estimate too (it used to be only in the hourly chart)
   const tod = timeOfDayAdj(now.hour, data.sunrise, data.sunset, data.cloud);
-  r.adjustments.push([tr('Время суток', 'Time of day', 'Doba dana'), tod]);
+  r.adjustments.push([tr('Time of day', 'Doba dana'), tod]);
   r.score = clamp(r.score + tod, 1.0, 10.0);
   return r;
 }
 
-// ---------- Условия для рыбака (комфорт и безопасность, это не клёв) ----------
-// Отдельная шкала 1–10: 10 всё спокойно. Клёв от неё не зависит: рыба клюёт и в дождь, но стоять под ливнем и порывами тяжело.
+// ---------- Conditions for the angler (comfort and safety, not the bite) ----------
+// A separate 1–10 scale: 10 means all calm. The bite does not depend on it: fish bite in the rain, but standing in a downpour and gusts is hard.
 const comfWindPts = [[0, 0], [3, 0], [5, -0.8], [7, -2.3], [9, -3.5], [11, -5.0], [12, -6.2], [14, -7.0], [17, -8.0]];
-// С берега волна мешает раньше: на камнях отдельные волны в 1,5–2 раза выше средней (Hs) и заливают.
-// С лодки высота умножается на 1,4 и идёт по своей кривой.
+// From the shore waves interfere sooner: on rocks individual waves are 1.5–2 times higher than the average (Hs) and splash over.
+// From a boat the height is multiplied by 1.4 and follows its own curve.
 const comfWaveShorePts = [[0, 0], [0.3, 0], [0.5, -1.0], [0.8, -2.2], [1.0, -3.0], [1.5, -4.2], [2.0, -5.0], [3.0, -7.0]];
 const comfWaveBoatPts = [[0, 0], [0.6, 0], [1.0, -0.8], [1.5, -2.0], [2.0, -3.0], [3.0, -5.0], [4.0, -7.0]];
 const comfRainDayPts = [[0, 0], [2, -0.3], [5, -1.0], [10, -2.0], [20, -3.5], [40, -5.0], [60, -6.0]];
@@ -165,69 +165,69 @@ const comfRainOutingPts = [[0, 0], [0.5, -0.4], [1, -0.8], [3, -2.2], [6, -3.5],
 const comfRainPeakPts = [[0, 0], [1, -0.4], [2.5, -1.2], [4, -2.2], [7.6, -3.8], [10, -5.0]];
 const comfTempPts = [[-5, -4.0], [0, -3.0], [5, -1.5], [10, -0.5], [14, 0], [31, 0], [35, -1.0], [39, -2.5]];
 
-// Средняя высота волны (Hs) и сколько бывают отдельные волны: примерно до 1,8 Hs
-// «(модели 50–95)», если самая низкая и самая высокая модель расходятся хотя бы на minGap; иначе пусто
+// Mean wave height (Hs) and how large individual waves get: up to about 1.8 Hs
+// "(models 50–95)" if the lowest and highest models differ by at least minGap; otherwise empty
 function spreadText(r, k, minGap) {
   if (!r || Number.isNaN(r[0]) || Number.isNaN(r[1])) return '';
   const lo = r[0] * k, hi = r[1] * k;
   if (hi - lo < minGap) return '';
-  return ' ' + trv('(модели {0}–{1})', '(models {0}–{1})', '(modeli {0}–{1})', [f0(lo), f0(hi)]);
+  return ' ' + trv('(models {0}–{1})', '(modeli {0}–{1})', [f0(lo), f0(hi)]);
 }
 function waveHint(wave) {
-  return isNaN_(wave) || wave < 0.2 ? null : trv('отдельные до {0}', 'single waves up to {0}', 'pojedinačni do {0}', [fmt(wave * 1.8, U.m())]);
+  return isNaN_(wave) || wave < 0.2 ? null : trv('single waves up to {0}', 'pojedinačni do {0}', [fmt(wave * 1.8, U.m())]);
 }
 function waveText(wave) {
   return isNaN_(wave) || wave < 0.2 ? fmt(wave, U.m())
-    : trv('{0}, отдельные до {1}', '{0}, single waves up to {1}', '{0}, pojedinačni do {1}', [fmt(wave, U.m()), fmt(wave * 1.8, U.m())]);
+    : trv('{0}, single waves up to {1}', '{0}, pojedinačni do {1}', [fmt(wave, U.m()), fmt(wave * 1.8, U.m())]);
 }
 
 // p: { windMs, gustMs, waveM, rainMm, rainPeakMmH, thunder, snow, feelsC, boat, rainOuting }
-// rainOuting: rainMm это сумма за выход на 3 часа, а не за день
+// rainOuting: rainMm is the sum for a 3-hour outing, not for the day
 function comfortModel(p) {
   const items = [];
   let cap = 10;
   const w = isNaN_(p.windMs) ? 0 : p.windMs, g = isNaN_(p.gustMs) ? 0 : p.gustMs;
   const wp = interp(Math.max(w, g * 0.8) * (p.boat ? 1.2 : 1), comfWindPts);
-  if (wp < -0.05) items.push([tr('Ветер', 'Wind', 'Vjetar'), trv('{0} км/ч, порывы {1}', '{0} km/h, gusts {1}', '{0} km/h, udari {1}', [f0(w * 3.6), f0(g * 3.6)]) + spreadText(p.gustRange, 3.6, 15), wp]);
+  if (wp < -0.05) items.push([tr('Wind', 'Vjetar'), trv('{0} km/h, gusts {1}', '{0} km/h, udari {1}', [f0(w * 3.6), f0(g * 3.6)]) + spreadText(p.gustRange, 3.6, 15), wp]);
   const wave = isNaN_(p.waveM) ? 0 : p.waveM;
   const vp = p.boat ? interp(wave * 1.4, comfWaveBoatPts) : interp(wave, comfWaveShorePts);
-  if (vp < -0.05) items.push([tr('Волна', 'Waves', 'Talasi'), waveText(wave), vp]);
+  if (vp < -0.05) items.push([tr('Waves', 'Talasi'), waveText(wave), vp]);
   const rain = isNaN_(p.rainMm) ? 0 : p.rainMm, peak = isNaN_(p.rainPeakMmH) ? 0 : p.rainPeakMmH;
   const rp = Math.min(interp(rain, p.rainOuting ? comfRainOutingPts : comfRainDayPts), interp(peak, comfRainPeakPts));
-  if (rp < -0.05) items.push([tr('Дождь', 'Rain', 'Kiša'), p.rainOuting
-    ? trv('{0} мм за 3 ч', '{0} mm in 3 h', '{0} mm za 3 h', [f1(rain)]) + spreadText(p.rainRange, 1, 3)
-    : trv('{0} мм за день', '{0} mm per day', '{0} mm za dan', [f0(rain)]), rp]);
-  // Под заметным дождём «Комфортно» не бывает, даже если ветра и волны нет
+  if (rp < -0.05) items.push([tr('Rain', 'Kiša'), p.rainOuting
+    ? trv('{0} mm in 3 h', '{0} mm za 3 h', [f1(rain)]) + spreadText(p.rainRange, 1, 3)
+    : trv('{0} mm per day', '{0} mm za dan', [f0(rain)]), rp]);
+  // Under noticeable rain it is never "Comfortable", even when there is no wind or waves
   if ((p.rainOuting && rain >= 1.0) || peak >= 2.5) cap = Math.min(cap, 7.5);
-  if (p.thunder) { items.push([tr('Гроза', 'Thunderstorm', 'Grmljavina'), tr('возможна', 'possible', 'moguća'), -6.0]); cap = Math.min(cap, 3.0); }
-  if (p.snow) { items.push([tr('Снег', 'Snow', 'Snijeg'), tr('возможен', 'possible', 'moguć'), -4.0]); cap = Math.min(cap, 4.5); }
+  if (p.thunder) { items.push([tr('Thunderstorm', 'Grmljavina'), tr('possible', 'moguća'), -6.0]); cap = Math.min(cap, 3.0); }
+  if (p.snow) { items.push([tr('Snow', 'Snijeg'), tr('possible', 'moguć'), -4.0]); cap = Math.min(cap, 4.5); }
   if (!isNaN_(p.feelsC)) {
     const tp = interp(p.feelsC, comfTempPts);
-    if (tp < -0.05) items.push([p.feelsC < 14 ? tr('Холод', 'Cold', 'Hladnoća') : tr('Жара', 'Heat', 'Vrućina'),
-      trv('ощущается {0} °C', 'feels like {0} °C', 'osjeća se {0} °C', [f0(p.feelsC)]), tp]);
+    if (tp < -0.05) items.push([p.feelsC < 14 ? tr('Cold', 'Hladnoća') : tr('Heat', 'Vrućina'),
+      trv('feels like {0} °C', 'osjeća se {0} °C', [f0(p.feelsC)]), tp]);
   }
   const score = Math.min(cap, clamp(10 + items.reduce((s, i) => s + i[2], 0), 1.0, 10.0));
   items.sort((a, b) => a[2] - b[2]);
   return { score, items };
 }
 
-// 0 зелёный, 1 жёлтый, 2 оранжевый, 3 красный
+// 0 green, 1 yellow, 2 orange, 3 red
 function comfortLevel(score) { score = Math.round(score * 10) / 10; return score >= 8 ? 0 : score >= 6 ? 1 : score >= 4 ? 2 : 3; }
 const COMFORT_COLORS = ['#2E9E5B', '#E0B000', '#F0841C', '#D9534F'];
-// Цвет строки по силе штрафа: мелкий штраф не красим, иначе он выглядит как тревога
+// Row color by penalty strength: a minor penalty is not colored, otherwise it looks like an alarm
 function penaltyColor(p) {
   if (p > -0.5) return null;
   return COMFORT_COLORS[p > -2 ? 1 : p >= -4 ? 2 : 3];
 }
 function comfortWord(level) {
-  return [tr('Комфортно', 'Comfortable', 'Udobno'), tr('Терпимо', 'Tolerable', 'Podnošljivo'),
-    tr('Неприятно', 'Unpleasant', 'Neugodno'), tr('Опасно', 'Dangerous', 'Opasno')][level];
+  return [tr('Comfortable', 'Udobno'), tr('Tolerable', 'Podnošljivo'),
+    tr('Unpleasant', 'Neugodno'), tr('Dangerous', 'Opasno')][level];
 }
 
 const OUTING_HOURS = 3;
 const hourVal = (a, i) => { const v = a ? a[i] : null; return v == null || Number.isNaN(v) ? 0 : v; };
 
-// Гроза и снег по часовым кодам погоды; если кодов нет, берём значения за день
+// Thunderstorm and snow by hourly weather codes; if there are no codes, use the daily values
 function weatherFlags(raw, from, to, day) {
   const codes = [];
   for (let i = from; i <= to; i++) {
@@ -241,8 +241,8 @@ function weatherFlags(raw, from, to, day) {
   };
 }
 
-// Условия на выход: худшее за 3 часа начиная с выбранного часа. Что было раньше и что будет позже, на оценку не влияет.
-// Open-Meteo пишет осадки на конец часа, поэтому дождь первого часа лежит в hourIndex + 1.
+// Conditions for an outing: the worst over 3 hours starting from the selected hour. What was earlier and what comes later does not affect the score.
+// Open-Meteo reports precipitation at the end of the hour, so the first hour's rain sits at hourIndex + 1.
 function comfortOuting(d, raw, hourIndex, day, air, boat) {
   const nz = v => (isNaN_(v) ? 0 : v);
   let wind = nz(d.wind), gust = nz(d.gust), wave = nz(d.waveHeight), rain = 0, peak = 0;
@@ -254,7 +254,7 @@ function comfortOuting(d, raw, hourIndex, day, air, boat) {
     if (k > 0) { const v = hourVal(raw.rain, i); rain += v; peak = Math.max(peak, v); }
   }
   const flags = weatherFlags(raw, hourIndex, hourIndex + OUTING_HOURS, day);
-  // разброс моделей за то же окно: у каждой модели свой максимум порывов и своя сумма дождя
+  // model spread over the same window: each model has its own gust maximum and its own rain total
   const range = v => { const x = v.filter(n => !Number.isNaN(n)); return x.length >= 3 ? [Math.min(...x), Math.max(...x)] : null; };
   const gustRange = range((raw.gustModels || []).map(a => { const v = []; for (let k = 0; k <= OUTING_HOURS; k++) { const n = a[hourIndex + k]; if (n != null && !Number.isNaN(n)) v.push(n); } return v.length ? Math.max(...v) : NaN; }));
   const rainRange = range((raw.rainModels || []).map(a => { let sum = 0; for (let k = 1; k <= OUTING_HOURS; k++) { const n = a[hourIndex + k]; if (n == null || Number.isNaN(n)) return NaN; sum += n; } return sum; }));
@@ -264,7 +264,7 @@ function comfortOuting(d, raw, hourIndex, day, air, boat) {
   });
 }
 
-// Условия, пока часовые данные не загрузились: худшее из текущих значений и суточных максимумов
+// Conditions while the hourly data has not loaded: the worst of the current values and the daily maxima
 function comfortNow(d, today, air, boat) {
   const nz = v => (isNaN_(v) ? 0 : v);
   return comfortModel({
@@ -277,16 +277,16 @@ function comfortNow(d, today, air, boat) {
   });
 }
 
-// Короткий список «из чего складывается» для карточки клёва: основа и главные поправки
+// A short "what it is made of" list for the bite card: the base and the main adjustments
 function biteTop(res) {
-  const out = [[tr('Сезон и вода', 'Season and water', 'Sezona i voda'), f1(res.base), 0]];
+  const out = [[tr('Season and water', 'Sezona i voda'), f1(res.base), 0]];
   res.adjustments.filter(a => Math.abs(a[1]) >= 0.2).sort((a, b) => Math.abs(b[1]) - Math.abs(a[1])).slice(0, 4)
     .forEach(a => out.push([a[0], sgn(a[1], 1), a[1]]));
   return out;
 }
 
-// ---------- Предупреждение о непогоде ----------
-// Возвращает null или [уровень (1 осторожно, 2 опасно), текст]; peakAt: когда пик, для предупреждения на 24 часа вперёд
+// ---------- Bad weather warning ----------
+// Returns null or [level (1 caution, 2 danger), text]; peakAt: when the peak is, for the 24-hour-ahead warning
 function safetyWarning(windMax, gustMax, waveMax, rainMm, rainPeakMmH, thunder, boat, peakAt) {
   const wind = isNaN_(windMax) ? 0 : windMax;
   const gust = isNaN_(gustMax) ? 0 : gustMax;
@@ -306,24 +306,24 @@ function safetyWarning(windMax, gustMax, waveMax, rainMm, rainPeakMmH, thunder, 
   if (!danger && !caution) return null;
 
   const reasons = [];
-  if (thunder) reasons.push(tr('гроза', 'thunderstorm', 'grmljavina'));
-  if (rainDanger) reasons.push(tr('ливень', 'downpour', 'pljusak'));
-  else if (peak >= 4.0) reasons.push(tr('сильный дождь', 'heavy rain', 'jaka kiša'));
-  else if (rainCaution) reasons.push(tr('дождь', 'rain', 'kiša'));
+  if (thunder) reasons.push(tr('thunderstorm', 'grmljavina'));
+  if (rainDanger) reasons.push(tr('downpour', 'pljusak'));
+  else if (peak >= 4.0) reasons.push(tr('heavy rain', 'jaka kiša'));
+  else if (rainCaution) reasons.push(tr('rain', 'kiša'));
   if (windDanger || windCaution) {
-    reasons.push(boat ? tr('сильный ветер', 'strong wind', 'jak vjetar') : tr('порывистый ветер', 'gusty wind', 'udarni vjetar'));
+    reasons.push(boat ? tr('strong wind', 'jak vjetar') : tr('gusty wind', 'udarni vjetar'));
   }
-  if (waveDanger || waveCaution) reasons.push(tr('высокая волна', 'high waves', 'visoki talasi'));
+  if (waveDanger || waveCaution) reasons.push(tr('high waves', 'visoki talasi'));
 
   const w = f0(wind * 3.6), g = f0(gust * 3.6), wv = f1(wave), r = f0(rain), p = f1(peak);
   const details = peakAt
-    ? trv('Пик: {0}. Ветер {1} км/ч, порывы {2} км/ч, волна {3} м, осадки за 24 ч {4} мм (до {5} мм/ч).', 'Peak: {0}. Wind {1} km/h, gusts {2} km/h, waves {3} m, rain in 24 h {4} mm (up to {5} mm/h).', 'Vrhunac: {0}. Vjetar {1} km/h, udari {2} km/h, talasi {3} m, padavine za 24 h {4} mm (do {5} mm/h).', [peakAt, w, g, wv, r, p])
-    : trv('Максимум за день: ветер {0} км/ч, порывы {1} км/ч, волна {2} м, осадки {3} мм (до {4} мм/ч).', 'Daily maximum: wind {0} km/h, gusts {1} km/h, waves {2} m, rain {3} mm (up to {4} mm/h).', 'Dnevni maksimum: vjetar {0} km/h, udari {1} km/h, talasi {2} m, padavine {3} mm (do {4} mm/h).', [w, g, wv, r, p]);
-  const head = danger ? tr('⚠ Опасно: ', '⚠ Dangerous: ', '⚠ Opasno: ') : tr('⚠ Осторожно: ', '⚠ Caution: ', '⚠ Oprez: ');
+    ? trv('Peak: {0}. Wind {1} km/h, gusts {2} km/h, waves {3} m, rain in 24 h {4} mm (up to {5} mm/h).', 'Vrhunac: {0}. Vjetar {1} km/h, udari {2} km/h, talasi {3} m, padavine za 24 h {4} mm (do {5} mm/h).', [peakAt, w, g, wv, r, p])
+    : trv('Daily maximum: wind {0} km/h, gusts {1} km/h, waves {2} m, rain {3} mm (up to {4} mm/h).', 'Dnevni maksimum: vjetar {0} km/h, udari {1} km/h, talasi {2} m, padavine {3} mm (do {4} mm/h).', [w, g, wv, r, p]);
+  const head = danger ? tr('⚠ Dangerous: ', '⚠ Opasno: ') : tr('⚠ Caution: ', '⚠ Oprez: ');
   return [danger ? 2 : 1, head + reasons.join(', ') + '. ' + details];
 }
 
-// Предупреждение на 24 часа от выбранного часа: с указанием дня и времени пика
+// Warning for 24 hours from the selected hour: with the day and time of the peak
 function outlookWarning(raw, hourIndex, day, boat) {
   const end = Math.min(hourIndex + 24, raw.wind.length - 1);
   let wind = 0, gust = 0, gustI = hourIndex, wave = 0, waveI = hourIndex, rain = 0, peak = 0, peakI = hourIndex, thunderI = -1;
@@ -334,12 +334,12 @@ function outlookWarning(raw, hourIndex, day, boat) {
     if (i > hourIndex) {
       const v = hourVal(raw.rain, i);
       rain += v;
-      if (v > peak) { peak = v; peakI = i - 1; }   // на конец часа, сам дождь на час раньше
+      if (v > peak) { peak = v; peakI = i - 1; }   // at the end of the hour, the rain itself an hour earlier
     }
     if (thunderI < 0 && raw.code && raw.code[i] >= 95 && raw.code[i] <= 99) thunderI = i;
   }
   const thunder = weatherFlags(raw, hourIndex, end, day).thunder;
-  // время пика берём по главной причине предупреждения
+  // take the peak time from the main cause of the warning
   const windLevel = safetyWarning(wind, gust, 0, 0, 0, false, boat);
   const waveLevel = safetyWarning(0, 0, wave, 0, 0, false, boat);
   const rainLevel = safetyWarning(0, 0, 0, rain, peak, false, boat);
@@ -350,8 +350,8 @@ function outlookWarning(raw, hourIndex, day, boat) {
   return safetyWarning(wind, gust, wave, rain, peak, thunder, boat, peakAt);
 }
 
-// Осадки выбранного дня для карточки: только оставшиеся часы, а дождь, идущий через полночь, показываем до конца.
-// Open-Meteo пишет осадки и вероятность на конец часа, поэтому час i это значения raw.rain[i + 1].
+// Precipitation for the selected day for the card: only the remaining hours, while rain running past midnight is shown to the end.
+// Open-Meteo reports precipitation and probability at the end of the hour, so hour i is the raw.rain[i + 1] values.
 function rainView(raw, dayIndex, fromHour, day) {
   const from = dayIndex * 24 + fromHour, dayEnd = (dayIndex + 1) * 24;
   let end = dayEnd;
@@ -364,7 +364,7 @@ function rainView(raw, dayIndex, fromHour, day) {
   };
   for (let i = from; i < end; i++) {
     const v = hourVal(raw.rain, i + 1);
-    // итог и пик только за сам день; окно дождя может идти дальше за полночь
+    // the total and peak only for the day itself; the rain window may continue past midnight
     if (i < dayEnd) { rain += v; peak = Math.max(peak, v); }
     const pr = raw.prob ? raw.prob[i + 1] : null;
     if (pr != null && !Number.isNaN(pr)) prob = Math.max(prob, pr);
@@ -380,7 +380,7 @@ function rainView(raw, dayIndex, fromHour, day) {
   });
 }
 
-// ---------- Лучшие часы ----------
+// ---------- Best hours ----------
 function hm(s) { const [h, m] = s.split(':').map(Number); return h * 60 + m; }
 function hmStr(mins) {
   mins = ((mins % 1440) + 1440) % 1440;
@@ -392,25 +392,25 @@ function bestHours(d) {
   try {
     if (d.sunrise !== '—') {
       const t = hm(d.sunrise);
-      out.push(`${tr('Утренняя заря', 'Dawn', 'Zora')}: ${hmStr(t - 30)} – ${hmStr(t + 90)}`);
+      out.push(`${tr('Dawn', 'Zora')}: ${hmStr(t - 30)} – ${hmStr(t + 90)}`);
     }
     if (d.sunset !== '—') {
       const t = hm(d.sunset);
-      out.push(`${tr('Вечерняя заря', 'Dusk', 'Sumrak')}: ${hmStr(t - 90)} – ${hmStr(t + 30)}`);
+      out.push(`${tr('Dusk', 'Sumrak')}: ${hmStr(t - 90)} – ${hmStr(t + 30)}`);
     }
-  } catch (e) { /* пропускаем */ }
+  } catch (e) { /* skip */ }
   if (d.nextHigh !== '—') {
-    out.push(trv('Смена воды (прилив) около {0}', 'Tide change (high tide) around {0}', 'Promjena vode (plima) oko {0}', [d.nextHigh]));
+    out.push(trv('Tide change (high tide) around {0}', 'Promjena vode (plima) oko {0}', [d.nextHigh]));
   }
   if (d.nextLow !== '—') {
-    out.push(trv('Смена воды (отлив) около {0}', 'Tide change (low tide) around {0}', 'Promjena vode (oseka) oko {0}', [d.nextLow]));
+    out.push(trv('Tide change (low tide) around {0}', 'Promjena vode (oseka) oko {0}', [d.nextLow]));
   }
   return out;
 }
 
-// ---------- По часам ----------
-// Время суток: на зорях (утро и вечер) рыба активнее, в яркий полдень слабее (исследования и рыболовные источники сходятся в этом;
-// ночью зависит от вида, поэтому ночь не трогаем). Зоря: от получаса до восхода до полутора часов после, вечером зеркально.
+// ---------- Hourly ----------
+// Time of day: at dawn and dusk (morning and evening) fish are more active, in bright midday less so (studies and fishing sources agree on this;
+// at night it depends on the species, so night is left alone). Dawn window: from half an hour before sunrise to an hour and a half after, mirrored in the evening.
 function timeOfDayAdj(hour, sunrise, sunset, cloudPct) {
   const mid = hour + 0.5;
   const sr = sunrise && sunrise !== '—' ? hm(sunrise) / 60 : null;
@@ -421,7 +421,7 @@ function timeOfDayAdj(hour, sunrise, sunset, cloudPct) {
   if (ss !== null && mid >= ss - 2.5 && mid <= ss + 1.5) return 0.5;
   if (mid >= 11.0 && mid <= 16.0) {
     const c = isNaN_(cloudPct) ? 0.3 : clamp(cloudPct / 100, 0, 1);
-    return -0.8 + 0.4 * c;   // ясный полдень -0.8, сплошная облачность -0.4
+    return -0.8 + 0.4 * c;   // clear midday -0.8, full overcast -0.4
   }
   return 0.0;
 }
@@ -431,9 +431,9 @@ function addDays(dateStr, n) {
   return new Date(Date.UTC(y, m - 1, d + n)).toISOString().substring(0, 10);
 }
 
-// Выбранное время прогноза. Кроме «Сейчас» это окно в 3 часа [from, from + 3) (часы от полуночи сегодня),
-// а показывается лучший по клёву час внутри окна (hourIndex). Пользователи не понимали «+3 ч»,
-// поэтому на кнопках интервал: «15:00–18:00», «Завтра 05:00–08:00». Утро начинается с 5:00 (раньше 7:00).
+// The selected forecast time. Except for "Now" it is a 3-hour window [from, from + 3) (hours from midnight today),
+// and the best hour for the bite inside the window is shown (hourIndex). Users did not understand "+3 h",
+// so the buttons show an interval: "15:00–18:00", "Tomorrow 05:00–08:00". Morning starts at 5:00 (it used to be 7:00).
 const SLOT_HOURS = 3, MORNING_HOUR = 5;
 const hh = h => pad2(((h % 24) + 24) % 24) + ':00';
 function forecastSlots(nowHour, raw, fish, boat) {
@@ -447,20 +447,20 @@ function forecastSlots(nowHour, raw, fish, boat) {
     return { label: label(span), hourIndex: best, window: span };
   };
   return [
-    { label: tr('Сейчас', 'Now', 'Sada'), hourIndex: nowHour },
+    { label: tr('Now', 'Sada'), hourIndex: nowHour },
     win(nowHour + SLOT_HOURS, s => s),
     win(nowHour + 2 * SLOT_HOURS, s => s),
-    win(24 + MORNING_HOUR, s => trv('Завтра {0}', 'Tomorrow {0}', 'Sutra {0}', [s]))
+    win(24 + MORNING_HOUR, s => trv('Tomorrow {0}', 'Sutra {0}', [s]))
   ];
 }
 
-// Оценка на конкретный час (hourIndex считается от полуночи сегодня), с объяснением
+// Estimate for a specific hour (hourIndex counts from midnight today), with an explanation
 function hourExplain(raw, fish, boat, hourIndex) {
   if (hourIndex < 0 || hourIndex >= raw.wind.length) return null;
   const pNow = raw.pressure[hourIndex + 3] ?? NaN;
   const pBefore = raw.pressure[hourIndex] ?? NaN;
   const trend = (Number.isNaN(pNow) || Number.isNaN(pBefore)) ? NaN : pNow - pBefore;
-  // осадки: сумма за час до и два часа после
+  // precipitation: sum for the hour before and two hours after
   let rain = 0;
   for (let k = -1; k <= 2; k++) {
     const v = raw.rain[hourIndex + k];
@@ -473,7 +473,7 @@ function hourExplain(raw, fish, boat, hourIndex) {
     waveM: raw.wave[hourIndex], cloudPct: raw.cloud[hourIndex], rainMm: rain, thunder: false, moonDays: moonAge(dayIndex)
   });
   const tod = timeOfDayAdj(hourIndex % 24, raw.sunrise[dayIndex], raw.sunset[dayIndex], raw.cloud[hourIndex]);
-  r.adjustments.push([tr('Время суток', 'Time of day', 'Doba dana'), tod]);
+  r.adjustments.push([tr('Time of day', 'Doba dana'), tod]);
   r.score = clamp(r.score + tod, 1.0, 10.0);
   return r;
 }
@@ -487,7 +487,7 @@ function hourlyScores(raw, fish, boat) {
   return res;
 }
 
-// Те же данные экрана, но ветер, волна, давление, вода, осадки, течение и уровень моря взяты на выбранный час
+// The same screen data, but wind, waves, pressure, water, precipitation, current and sea level are taken for the selected hour
 function forecastAt(d, raw, hourIndex) {
   const pick = (a, old) => (isNaN_(a[hourIndex] ?? NaN) ? old : a[hourIndex]);
   const pNow = raw.pressure[hourIndex + 3] ?? NaN;
@@ -511,7 +511,7 @@ function forecastAt(d, raw, hourIndex) {
   });
 }
 
-// Средняя оценка за утро, день и вечер выбранных суток
+// Average score for morning, day and evening of the selected day
 function dayParts(raw, date, fish, boat) {
   const dayIndex = daysBetween(raw.date, date);
   if (dayIndex < 0 || dayIndex >= HOURLY_DAYS) return null;
@@ -535,7 +535,7 @@ function bestWindow(points, fromHour) {
   return best;
 }
 
-// ---------- Ветер относительно берега ----------
+// ---------- Wind relative to the shore ----------
 const SHORE_FACING_DEG = 225.0;
 function windVsShore(windFromDeg, windMs) {
   if (isNaN_(windFromDeg)) return null;
@@ -544,33 +544,33 @@ function windVsShore(windFromDeg, windMs) {
   const strong = !isNaN_(windMs) && windMs * 3.6 >= 25.0;
   if (diff <= 50.0) {
     return [0, strong
-      ? tr('С моря, на берег: нагоняет волну и прибой', 'From the sea, onto the shore: builds waves and surf', 'S mora, prema obali: stvara talas i prasak')
-      : tr('С моря, на берег: у берега может быть рябь и прибой', 'From the sea, onto the shore: some chop and surf near the shore', 'S mora, prema obali: uz obalu može biti mreškanje i prasak')];
+      ? tr('From the sea, onto the shore: builds waves and surf', 'S mora, prema obali: stvara talas i prasak')
+      : tr('From the sea, onto the shore: some chop and surf near the shore', 'S mora, prema obali: uz obalu može biti mreškanje i prasak')];
   }
   if (diff >= 130.0) {
     return [2, strong
-      ? tr('С берега, в море: в лодке может сносить от берега, будьте осторожны', 'Offshore, towards the sea: a boat can be pushed away from the coast, be careful', 'S kopna, prema moru: čamac može nositi od obale, budite oprezni')
-      : tr('С берега, в море: у берега тихо, лодку может сносить в море', 'Offshore, towards the sea: calm near the shore, a boat can drift out', 'S kopna, prema moru: uz obalu je mirno, čamac može nositi na pučinu')];
+      ? tr('Offshore, towards the sea: a boat can be pushed away from the coast, be careful', 'S kopna, prema moru: čamac može nositi od obale, budite oprezni')
+      : tr('Offshore, towards the sea: calm near the shore, a boat can drift out', 'S kopna, prema moru: uz obalu je mirno, čamac može nositi na pučinu')];
   }
-  return [1, tr('Вдоль берега', 'Along the shore', 'Duž obale')];
+  return [1, tr('Along the shore', 'Duž obale')];
 }
 
-// ---------- Оценки и цвета ----------
+// ---------- Scores and colors ----------
 function scoreColor(score) {
-  // оценка округлённая; шкала строгая: 5-7 «средний», «хороший» с 8
+  // score rounded; the scale is strict: 5-7 is "average", "good" from 8
   if (score >= 9) return '#2E9E5B';
   if (score >= 8) return '#8BC34A';
   if (score >= 5) return '#F0A030';
   return '#D9534F';
 }
 function scoreWord(score) {
-  if (score >= 9) return tr('отличный', 'excellent', 'odličan');
-  if (score >= 8) return tr('хороший', 'good', 'dobar');
-  if (score >= 5) return tr('средний', 'fair', 'srednji');
-  return tr('слабый', 'poor', 'slab');
+  if (score >= 9) return tr('excellent', 'odličan');
+  if (score >= 8) return tr('good', 'dobar');
+  if (score >= 5) return tr('fair', 'srednji');
+  return tr('poor', 'slab');
 }
 
-// ---------- Рыбы для расчёта ----------
+// ---------- Fish for the calculation ----------
 function buildFish(def) {
   return { name: def.name, season: def.season, tempPts: DATA.temps[def.temp], surf: def.surf };
 }
@@ -580,8 +580,8 @@ const FISH = {
 };
 const fishFor = boat => (boat ? FISH.boat : FISH.shore).filter(f => Country.visible({ key: f.name }));
 
-// ---------- Районы и точки (берутся из текущей страны) ----------
-const SPOT_NAMES = ['Берег', '3 км', '15 км'];
+// ---------- Regions and points (taken from the current country) ----------
+const SPOT_NAMES = ['Shore', '3 km', '15 km'];
 function buildRegions() {
   return Country.regions().map((r, idx) => ({
     key: r.key,

@@ -1,5 +1,5 @@
-// Service worker: приложение открывается без интернета (данные погоды всё равно нужны онлайн).
-// При выходе новой версии меняйте номер VERSION: пользователи увидят кнопку «Обновить».
+// Service worker: the app opens offline (weather data still needs to be online).
+// When a new version is released, change the VERSION number: users will see an "Update" button.
 const VERSION = '1.14.0';
 const CACHE = 'fishing-web-' + VERSION;
 const RUNTIME = 'fishing-runtime';
@@ -11,7 +11,7 @@ const SHELL = [
 ];
 
 self.addEventListener('install', e => {
-  // cache: 'reload': мимо кэша браузера, иначе в новую версию попадут старые файлы (Pages отдаёт их с max-age=600)
+  // cache: 'reload': bypass the browser cache, otherwise old files end up in the new version (Pages serves them with max-age=600)
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })))));
 });
 
@@ -32,7 +32,7 @@ self.addEventListener('fetch', e => {
   const url = new URL(req.url);
 
   if (url.origin === location.origin) {
-    // APK, видеофон (Safari не любит видео из кэша воркера) и version.json не кэшируем
+    // APK, video background (Safari does not like video from a worker cache) and version.json are not cached
     if (url.pathname.includes('/downloads/') || url.pathname.endsWith('version.json') || /\.(apk|mp4)$/.test(url.pathname)) return;
     e.respondWith(
       caches.match(req, { ignoreSearch: true }).then(hit => hit || fetch(req).then(res => {
@@ -43,7 +43,7 @@ self.addEventListener('fetch', e => {
     return;
   }
 
-  // Leaflet (cdnjs) и фото рыб (Wikimedia): из кэша, если есть, и обновляем в фоне
+  // Leaflet (cdnjs) and fish photos (Wikimedia): from cache if present, and update in the background
   if (url.hostname === 'cdnjs.cloudflare.com' || url.hostname === 'upload.wikimedia.org') {
     e.respondWith(
       caches.open(RUNTIME).then(cache => cache.match(req).then(hit => {
@@ -52,5 +52,5 @@ self.addEventListener('fetch', e => {
       }))
     );
   }
-  // всё остальное (погода, карта, глубины) идёт напрямую в сеть
+  // everything else (weather, map, depths) goes straight to the network
 });

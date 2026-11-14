@@ -1,4 +1,4 @@
-// Библиотека рыб: данные из data.js, фото с Википедии (адрес запоминается на устройстве)
+// Fish library: data from data.js, photos from Wikipedia (the address is remembered on the device)
 const photoAlias = {
   'Sphyraena sphyraena': ['European barracuda', 'Sphyraena', 'Barracuda'],
   'Sphyraena viridensis': ['Yellowmouth barracuda']
@@ -28,12 +28,12 @@ async function findPhotoUrl(latin) {
     try {
       const found = fromPages(await getJson(url, 10000));
       if (found && !/\.svg(\/|$)/i.test(found)) return found;
-    } catch (e) { /* пробуем следующий способ */ }
+    } catch (e) { /* try the next method */ }
   }
   return null;
 }
 
-// очередь, чтобы не слать десятки запросов сразу
+// queue, so we do not fire dozens of requests at once
 const photoQueue = { running: 0, waiting: [] };
 function runPhotoJob(job) {
   return new Promise(resolve => {
@@ -59,7 +59,7 @@ function photoUrlFor(latin) {
   });
 }
 
-// Картинка с ленивой загрузкой; нажатие по серой плашке повторяет попытку
+// Image with lazy loading; tapping the gray placeholder retries
 function fishPhoto(latin, cls) {
   const box = h('div', { class: 'photo ' + (cls || '') });
   const img = h('img', { alt: latin, loading: 'lazy' });
@@ -78,25 +78,25 @@ function fishPhoto(latin, cls) {
     const io = new IntersectionObserver(es => {
       if (es.some(e => e.isIntersecting)) { io.disconnect(); load(); }
     }, { rootMargin: '200px' });
-    // наблюдаем после вставки в документ
+    // observe after insertion into the document
     setTimeout(() => io.observe(box), 0);
   } else load();
   return box;
 }
 
-// подключаем расширенные данные: рыба-лев и новые поля
+// attach extended data: lionfish and new fields
 (function () {
   if (!window.FISHX) return;
   FISHX.extra.forEach(e => { if (!DATA.lib.some(f => f.key === e.key)) DATA.lib.push(e); });
 })();
 
-// Первые буквы месяцев своей таблицей: браузер без нужного языка подставлял язык системы (кириллицу)
+// First letters of months from our own table: a browser without the needed language substituted the system language (Cyrillic)
 const MONTHS = {
-  ru: 'ЯФМАМИИАСОНД', en: 'JFMAMJJASOND', sr: 'JFMAMJJASOND', hr: 'SVOTSLSKRLSP', it: 'GFMAMGLASOND',
+  en: 'JFMAMJJASOND', sr: 'JFMAMJJASOND', hr: 'SVOTSLSKRLSP', it: 'GFMAMGLASOND',
   el: 'ΙΦΜΑΜΙΙΑΣΟΝΔ', sq: 'JSMPMQKGSTND', sl: 'JFMAMJJASOND', de: 'JFMAMJJASOND', es: 'EFMAMJJASOND', tr: 'OŞMNMHTAEEKA'
 };
 function seasonBar(months) {
-  const names = [tr('Нет','No','Ne'), tr('Слабо','Weak','Slabo'), tr('Хорошо','Good','Dobro'), tr('Пик','Peak','Vrhunac')];
+  const names = [tr('No','Ne'), tr('Weak','Slabo'), tr('Good','Dobro'), tr('Peak','Vrhunac')];
   const m = [...(MONTHS[Lang.current] || MONTHS.en)];
   const wrap = h('div', { class: 'sbar' });
   months.forEach((v, i) => wrap.appendChild(h('div', { class: 'sb s' + v, title: names[v] }, h('i', null), h('b', null, m[i]))));
@@ -111,8 +111,8 @@ function recipeBlock(S, fkey, r, idx, rerender) {
     h('b', null, '🍽 ' + t3(r.title)),
     h('span', { class: 'link' }, open ? '▲' : '▼')));
   if (open) {
-    box.appendChild(small(r.min + ' ' + tr('мин', 'min', 'min') + ' · ' + r.serves + ' ' + tr('порц.', 'servings', 'porcija')));
-    box.appendChild(infoRow(tr('Продукты', 'Ingredients', 'Namirnice'), t3(r.ingr)));
+    box.appendChild(small(r.min + ' ' + tr('min', 'min') + ' · ' + r.serves + ' ' + tr('servings', 'porcija')));
+    box.appendChild(infoRow(tr('Ingredients', 'Namirnice'), t3(r.ingr)));
     r.steps.forEach((st, i) => box.appendChild(h('p', null, (i + 1) + '. ' + t3(st))));
   }
   return box;
@@ -121,23 +121,22 @@ function recipeBlock(S, fkey, r, idx, rerender) {
 const libTitle = f => {
   const names = fishNames(f.key);
   if (names && names.length) return names.length > 1 ? `${names[0]} (${names[1]})` : names[0];
-  return f.en ? tr(f.key, f.en, f.sr || f.en) : fishLabel(f.key);
+  return f.en ? tr(f.en, f.sr || f.en) : fishLabel(f.key);
 };
 
-// Виды, у которых в общем поле rule лежит предупреждение о безопасности, а не норма закона
-const safetyRuleKeys = new Set(['Скорпена чёрная', 'Скорпена красная', 'Морской дракон', 'Морской угорь', 'Мурена', 'Рыба-лев (крылатка)']);
+// Species whose shared rule field holds a safety warning rather than a legal limit
+const safetyRuleKeys = new Set(['Black scorpionfish', 'Red scorpionfish', 'Greater weever', 'European conger', 'Mediterranean moray', 'Red lionfish']);
 
-const sizeText = s => (Lang.current !== 'ru' ? s
-  : s.replace(' cm', ' см').replace(' mm', ' мм').replace(' kg', ' кг').replace(' g', ' г'));
+const sizeText = s => s;
 
-// Текст правил вида для выбранной страны и района: размер, запрет, примечание, безопасность.
-// Если у района есть область со своими нормами (ES-CT), берём их, иначе нормы страны.
+// Rule text for a species in the selected country and region: size, ban, note, safety.
+// If the region has an area with its own rules (ES-CT), use those, otherwise the country's rules.
 function fishRuleText(f, code, area) {
   const byArea = area && SITE_DATA.fish[code + '-' + area.code];
   const r = (byArea && byArea[f.key]) || (SITE_DATA.fish[code] || {})[f.key];
   const parts = [];
-  if (r && r.min) parts.push(tr('Минимальный размер', 'Minimum size', 'Minimalna veličina') + ' ' + sizeText(r.min) + ' (' + r.src + ').');
-  if (r && r.closed) parts.push(tr('Запрет ловли', 'Closed season', 'Lovostaj') + ': ' + r.closed + '.');
+  if (r && r.min) parts.push(tr('Minimum size', 'Minimalna veličina') + ' ' + sizeText(r.min) + ' (' + r.src + ').');
+  if (r && r.closed) parts.push(tr('Closed season', 'Lovostaj') + ': ' + r.closed + '.');
   if (r && r.note) parts.push(t3(SITE_DATA.notes[r.note]));
   if (safetyRuleKeys.has(f.key)) parts.push(t3(f.rule));
   return parts.join(' ');
@@ -145,20 +144,20 @@ function fishRuleText(f, code, area) {
 
 function renderLibrary(S, rerender) {
   const groups = [
-    [0, tr('Рыбы', 'Fish', 'Ribe')],
-    [1, tr('Головоногие', 'Cephalopods', 'Glavonošci')],
-    [2, tr('Ракообразные', 'Crustaceans', 'Rakovi')]
+    [0, tr('Fish', 'Ribe')],
+    [1, tr('Cephalopods', 'Glavonošci')],
+    [2, tr('Crustaceans', 'Rakovi')]
   ];
-  const out = [h('h2', { class: 'page' }, tr('Рыбы', 'Fish', 'Ribe') + ' · ' + Country.sea())];
+  const out = [h('h2', { class: 'page' }, tr('Fish', 'Ribe') + ' · ' + Country.sea())];
 
   const rules = Country.rules();
   const area = Country.area(S.region);
-  const rulesCard = card(tr('Основные правила и законы', 'Main rules and laws', 'Osnovna pravila i zakoni'),
+  const rulesCard = card(tr('Main rules and laws', 'Osnovna pravila i zakoni'),
     h('a', { class: 'link', href: '#', onclick: e => { e.preventDefault(); S.rulesOpen = !S.rulesOpen; rerender(); } },
-      S.rulesOpen ? tr('Свернуть ▲', 'Collapse ▲', 'Skupi ▲') : tr('Показать ▼', 'Show ▼', 'Prikaži ▼')));
+      S.rulesOpen ? tr('Collapse ▲', 'Skupi ▲') : tr('Show ▼', 'Prikaži ▼')));
   if (S.rulesOpen) {
     rules.slice(0, rules.length - 2).forEach(r => rulesCard.appendChild(h('p', null, '• ' + t3(r))));
-    // Правила области выбранного района
+    // Rules of the selected region's area
     if (area && area.rules.length) {
       rulesCard.appendChild(h('h3', null, t3(area.name)));
       area.rules.forEach(r => rulesCard.appendChild(h('p', null, '• ' + t3(r))));
@@ -178,23 +177,23 @@ function renderLibrary(S, rerender) {
       const toggle = () => { S.libOpen = open ? null : f.key; rerender(); };
       const head = h('div', { class: 'row click', onclick: toggle },
         open ? null : fishPhoto(f.latin, 'thumb'),
-        h('span', { class: 'link' }, open ? tr('Свернуть ▲', 'Collapse ▲', 'Skupi ▲') : tr('Подробнее ▼', 'Details ▼', 'Detalji ▼')));
+        h('span', { class: 'link' }, open ? tr('Collapse ▲', 'Skupi ▲') : tr('Details ▼', 'Detalji ▼')));
       c.appendChild(head);
       if (open) {
         c.appendChild(fishPhoto(f.latin, 'big'));
-        c.appendChild(infoRow(tr('Где', 'Where', 'Gdje'), t3(f.where)));
-        c.appendChild(infoRow(tr('Наживка и приманки', 'Bait and lures', 'Mamci i varalice'), t3(f.bait)));
-        c.appendChild(infoRow(tr('Часы активности', 'Active hours', 'Aktivni sati'), t3(f.hours)));
-        c.appendChild(infoRow(tr('Сезон', 'Season', 'Sezona'), t3(f.season)));
-        c.appendChild(infoRow(tr('Правила', 'Rules', 'Pravila'), fishRuleText(f, Country.code, area)));
+        c.appendChild(infoRow(tr('Where', 'Gdje'), t3(f.where)));
+        c.appendChild(infoRow(tr('Bait and lures', 'Mamci i varalice'), t3(f.bait)));
+        c.appendChild(infoRow(tr('Active hours', 'Aktivni sati'), t3(f.hours)));
+        c.appendChild(infoRow(tr('Season', 'Sezona'), t3(f.season)));
+        c.appendChild(infoRow(tr('Rules', 'Pravila'), fishRuleText(f, Country.code, area)));
         const x = window.FISHX && FISHX.sp[f.key];
         if (x) {
-          c.appendChild(infoRow(tr('Повадки', 'Habits', 'Navike'), t3(x.habits)));
+          c.appendChild(infoRow(tr('Habits', 'Navike'), t3(x.habits)));
           c.appendChild(seasonBar(x.months));
           if (x.safety) c.appendChild(h('div', { class: 'warn' }, '⚠ ' + t3(x.safety)));
           if (x.noeat) c.appendChild(h('div', { class: 'warn' }, '🚫 ' + t3(x.noeat)));
           if (x.rec.length) {
-            c.appendChild(h('h3', { class: 'recs' }, tr('Что приготовить', 'What to cook', 'Što skuhati')));
+            c.appendChild(h('h3', { class: 'recs' }, tr('What to cook', 'Što skuhati')));
             x.rec.forEach((r, i) => c.appendChild(recipeBlock(S, f.key, r, i, rerender)));
           }
         }

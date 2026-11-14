@@ -1,4 +1,4 @@
-// Загрузка данных: Open-Meteo (погода и море). Всё как в Android-приложении.
+// Data loading: Open-Meteo (weather and sea). Same as in the Android app.
 
 async function getJson(url, timeoutMs = 15000) {
   return fetchRetry(url, timeoutMs, res => res.json());
@@ -29,9 +29,9 @@ const nv = (arr, i) => {
 };
 const nn = v => (v == null ? NaN : v);
 
-// ---------- Медиана нескольких моделей для ветра, порывов и осадков ----------
-// Одна модель может заметно ошибаться: 12.11.2026 у Херцег-Нови «лучшая» модель давала порывы 85–95 км/ч
-// и почти без дождя, а пять других 50–75 км/ч и 3–8 мм/ч. Медиана убирает такие выбросы.
+// ---------- Median of several models for wind, gusts and precipitation ----------
+// A single model can be noticeably wrong: on 12.11.2026 at Herceg Novi the "best" model gave gusts of 85–95 km/h
+// and almost no rain, while five others gave 50–75 km/h and 3–8 mm/h. The median removes such outliers.
 const ENS_MODELS = ['best_match', 'ecmwf_ifs', 'icon_seamless', 'meteofrance_seamless', 'gfs_seamless', 'ukmo_seamless'];
 const ENS_VARS = ['wind_speed_10m', 'wind_gusts_10m', 'precipitation'];
 function median(v) {
@@ -39,7 +39,7 @@ function median(v) {
   const s = v.slice().sort((a, b) => a - b), m = s.length >> 1;
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 }
-// range: те же past_days/forecast_days/timezone, что у основного запроса. null, если не удалось
+// range: the same past_days/forecast_days/timezone as the main request. null if the request failed
 async function loadEnsemble(lat, lon, range) {
   try {
     const r = await getJson(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
@@ -53,9 +53,9 @@ async function loadEnsemble(lat, lon, range) {
     const at = (name, time) => { const i = index.get(time); return i == null ? NaN : values[name][i]; };
     return {
       at,
-      // ряды отдельных моделей на те же часы, что times (NaN, где модель молчит), для разброса
+      // series of individual models for the same hours as times (NaN where a model has no data), for the spread
       models: (name, times) => (perModel[name] || []).map(a => times.map(t => { const i = index.get(t); return i == null || a[i] == null ? NaN : a[i]; })),
-      // подменить значения ряда по его времени; где медианы нет, остаётся прежнее
+      // replace series values by their time; where there is no median, the previous value stays
       overlay: (name, times, arr) => arr.map((v, i) => { const m = times[i] ? at(name, times[i]) : NaN; return Number.isNaN(m) ? v : m; })
     };
   } catch (e) { return null; }
@@ -66,7 +66,7 @@ function seriesOf(h, name, start, count) {
   return Array.from({ length: count }, (_, i) => nv(arr, start + i));
 }
 
-// Уровень моря на час: значение, растёт или падает, ближайшие прилив и отлив за следующие сутки
+// Sea level for an hour: the value, whether it is rising or falling, the nearest high and low tide over the next 24 hours
 function tideAt(levels, times, idx) {
   const level = nv(levels, idx), next = nv(levels, idx + 1);
   const rising = Number.isNaN(level) || Number.isNaN(next) ? null : next > level;
@@ -81,8 +81,8 @@ function tideAt(levels, times, idx) {
   return { level, rising, high, low };
 }
 
-// Условия на заданный час и место, для записи дневника задним числом. localIso: 'YYYY-MM-DDTHH:mm' во времени страны.
-// null, если погоду загрузить не удалось
+// Conditions for a given hour and place, for filling in a diary entry after the fact. localIso: 'YYYY-MM-DDTHH:mm' in the country's local time.
+// null if the weather could not be loaded
 async function loadConditionsAt(lat, lon, localIso) {
   const day = localIso.substring(0, 10);
   const key = localIso.substring(0, 13) + ':00';
@@ -95,13 +95,13 @@ async function loadConditionsAt(lat, lon, localIso) {
     const h = root.hourly;
     const i = h.time.indexOf(key);
     if (i < 0 || h.wind_speed_10m[i] == null) return null;
-    // ветер и порывы медианой моделей, как в прогнозе
+    // wind and gusts as the model median, same as in the forecast
     const ens = await loadEnsemble(lat, lon, range);
     const eAt = (name, fb) => { const v = ens ? ens.at(name, key) : NaN; return Number.isNaN(v) ? fb : v; };
     const pNow = nv(h.pressure_msl, i), pBefore = nv(h.pressure_msl, i - 3);
     const sun = name => (root.daily && root.daily[name] && root.daily[name][1] ? root.daily[name][1].substring(11, 16) : '—');
 
-    // волны, вода и уровень: если точка на суше, сервис вернёт ошибку, тогда просто без них
+    // waves, water and level: if the point is on land the service returns an error, so we just go without them
     let m = null, mi = -1;
     try {
       m = (await getJson(
@@ -124,14 +124,14 @@ async function loadConditionsAt(lat, lon, localIso) {
       currentDir: marine('ocean_current_direction'),
       seaLevel: tide.level, tideRising: tide.rising, nextHigh: tide.high, nextLow: tide.low,
       rain3d: NaN,
-      // Open-Meteo пишет осадки на конец часа: дождь с h до h+1 лежит в следующей ячейке
+      // Open-Meteo reports precipitation at the end of the hour: rain from h to h+1 sits in the next cell
       rainNow: h.precipitation[i + 1] == null ? 0 : h.precipitation[i + 1],
       sunrise: sun('sunrise'), sunset: sun('sunset')
     };
   } catch (e) { return null; }
 }
 
-// ---------- «Сейчас» ----------
+// ---------- "Now" ----------
 async function loadSeaData(spot) {
   const ensP = loadEnsemble(spot.lat, spot.lon, `&forecast_days=2&timezone=${TZ}`);
   const marineRoot = await getJson(
@@ -141,7 +141,7 @@ async function loadSeaData(spot) {
   const marine = marineRoot.current;
   if (!marine) throw new Error('no marine data');
 
-  // Погода и море идут с разных серверов: если погода не ответила, море всё равно показываем
+  // Weather and sea come from different servers: if the weather did not respond, we still show the sea
   let weatherRoot = null;
   try {
     weatherRoot = await getJson(
@@ -184,7 +184,7 @@ async function loadSeaData(spot) {
     }
   }
 
-  // ветер «сейчас» медианой на ближайший час, осадки на конец часа (Open-Meteo пишет сумму за предыдущий час)
+  // "now" wind as the median for the nearest hour, precipitation at the end of the hour (Open-Meteo reports the sum for the previous hour)
   const ens = await ensP;
   const hourKey = ms => { const d = new Date(ms); const z = n => String(n).padStart(2, '0'); return `${d.getUTCFullYear()}-${z(d.getUTCMonth() + 1)}-${z(d.getUTCDate())}T${z(d.getUTCHours())}:00`; };
   const nowMs = weather && weather.time ? Date.parse(weather.time + ':00Z') : NaN;
@@ -209,7 +209,7 @@ async function loadSeaData(spot) {
   };
 }
 
-// ---------- По часам: сегодня и следующие дни ----------
+// ---------- Hourly: today and the following days ----------
 const HOURLY_DAYS = 5;
 async function loadHourly(spot) {
   const ensP = loadEnsemble(spot.lat, spot.lon, `&past_days=1&forecast_days=${HOURLY_DAYS}&timezone=${TZ}`);
@@ -218,7 +218,7 @@ async function loadHourly(spot) {
     `&hourly=wind_speed_10m,wind_gusts_10m,wind_direction_10m,cloud_cover,precipitation,precipitation_probability,weather_code,pressure_msl` +
     `&daily=sunrise,sunset&past_days=1&forecast_days=${HOURLY_DAYS}&wind_speed_unit=ms&timezone=${TZ}`);
   const h = root.hourly;
-  // первый элемент это вчера; оставляем только время
+  // the first element is yesterday; keep only the time
   const sunTimes = name => ((root.daily && root.daily[name]) || []).slice(1).map(t => t.substring(11, 16));
   const hours = HOURLY_DAYS * 24;
   const today = nowLocal().date;
@@ -261,7 +261,7 @@ async function loadHourly(spot) {
   };
 }
 
-// ---------- Дни ----------
+// ---------- Days ----------
 function dayMean(arr, dayIndex, fromH = 0, toH = 23) {
   if (!arr) return NaN;
   let sum = 0, n = 0;
@@ -281,7 +281,7 @@ function rainWindowsFor(hourly, dayIndex, fromHour) {
     start = -1; last = -1; sum = 0; peak = 0;
   };
   for (let h = 0; h <= 23; h++) {
-    // Open-Meteo пишет осадки на конец часа: дождь с h до h+1 лежит в следующей ячейке
+    // Open-Meteo reports precipitation at the end of the hour: rain from h to h+1 sits in the next cell
     const raw = hourly[dayIndex * 24 + h + 1];
     const v = raw == null ? 0 : raw;
     if (v >= 0.2) {
@@ -309,13 +309,13 @@ async function loadDays(spot) {
   const weather = root.daily;
   const hourlyObj = root.hourly;
   const hourKey = (i, h) => root.daily.time[i] + 'T' + String(h).padStart(2, '0') + ':00';
-  // часовые осадки: медиана моделей, где она есть, иначе ответ основного запроса
+  // hourly precipitation: model median where available, otherwise the main request's response
   const baseRain = hourlyObj ? hourlyObj.precipitation : null;
   const hourly = !ens ? baseRain : root.daily.time.flatMap((_, i) => Array.from({ length: 24 }, (_, h) => {
     const m = ens.at('precipitation', hourKey(i, h));
     return !Number.isNaN(m) ? m : nv(baseRain, i * 24 + h) || 0;
   }));
-  // суточный максимум или сумма по медиане; NaN, если для дня мало часов
+  // daily maximum or sum by the median; NaN if there are too few hours for the day
   const ensDay = (name, i, sum) => {
     if (!ens) return NaN;
     const v = Array.from({ length: 24 }, (_, h) => ens.at(name, hourKey(i, h))).filter(x => !Number.isNaN(x));
@@ -384,17 +384,17 @@ function dayExplain(day, fish, boat) {
 const dayBite = (day, fish, boat) => dayExplain(day, fish, boat).score;
 
 function rainLevelText(day) {
-  if (day.rainPeakMmH >= 7.6 || day.rain >= 30) return tr('сильный дождь, возможны ливни', 'heavy rain, downpours possible', 'jaka kiša, mogući pljuskovi');
-  if (day.rain >= 10 || day.rainPeakMmH >= 2.5) return tr('дождь', 'rain', 'kiša');
-  if (day.rain >= 1.0) return tr('небольшой дождь', 'light rain', 'slaba kiša');
+  if (day.rainPeakMmH >= 7.6 || day.rain >= 30) return tr('heavy rain, downpours possible', 'jaka kiša, mogući pljuskovi');
+  if (day.rain >= 10 || day.rainPeakMmH >= 2.5) return tr('rain', 'kiša');
+  if (day.rain >= 1.0) return tr('light rain', 'slaba kiša');
   return null;
 }
 const pad2 = n => String(n).padStart(2, '0');
-// Окно, которое кончается после полуночи, подписываем «следующего дня»
+// A window that ends after midnight is labeled "next day"
 function rainWindowText(w) {
-  // toHour: 24 это полночь, больше 24 это час следующего дня
-  const to = w.toHour > 24 ? `${pad2(w.toHour - 24)}:00 ${tr('следующего дня', 'next day', 'sljedećeg dana')}` : `${pad2(w.toHour)}:00`;
-  return `${pad2(w.fromHour)}:00–${to} · ≈ ${f0(w.mm)} ${U.mm()} (${tr('до', 'up to', 'do')} ${f1(w.peakMmH)} ${U.mm()}/${tr('ч', 'h', 'h')})`;
+  // toHour: 24 is midnight, more than 24 is an hour of the next day
+  const to = w.toHour > 24 ? `${pad2(w.toHour - 24)}:00 ${tr('next day', 'sljedećeg dana')}` : `${pad2(w.toHour)}:00`;
+  return `${pad2(w.fromHour)}:00–${to} · ≈ ${f0(w.mm)} ${U.mm()} (${tr('up to', 'do')} ${f1(w.peakMmH)} ${U.mm()}/${tr('h', 'h')})`;
 }
 function rainShortText(day) {
   const parts = [];
@@ -403,11 +403,11 @@ function rainShortText(day) {
     const windows = day.rainWindows.map(w => `${pad2(w.fromHour)}:00–${pad2(w.toHour > 24 ? w.toHour - 24 : w.toHour)}:00`).join('; ');
     parts.push(`☔ ${level}` + (windows ? `: ${windows}` : '') + ` (≈ ${f0(day.rain)} ${U.mm()})`);
   }
-  if (day.thunder) parts.push(tr('⛈ гроза', '⛈ thunderstorm', '⛈ grmljavina'));
+  if (day.thunder) parts.push(tr('⛈ thunderstorm', '⛈ grmljavina'));
   return parts.length ? parts.join(' · ') : null;
 }
 
-// ---------- Температура воздуха ----------
+// ---------- Air temperature ----------
 async function loadAir(spot) {
   const root = await getJson(
     `https://api.open-meteo.com/v1/forecast?latitude=${spot.lat}&longitude=${spot.lon}` +
@@ -420,7 +420,7 @@ async function loadAir(spot) {
   return { now: { temp: nn(cur.temperature_2m), feels: nn(cur.apparent_temperature) }, days };
 }
 
-// ---------- Глубина (EMODnet) ----------
+// ---------- Depth (EMODnet) ----------
 async function fetchDepth(lat, lon) {
   const one = async (la, lo) => {
     try {
@@ -439,17 +439,17 @@ async function fetchDepth(lat, lon) {
 }
 
 
-// ---------- Метеостанция: ближайший аэропорт (METAR, MET Norway) ----------
-// aviationweather.gov браузер не пускает (нет CORS). api.met.no разрешает простые запросы с небольших сайтов.
-// Если у ближайшей станции нет свежей сводки (маленькие аэропорты молчат ночью и не в сезон), берём следующую.
-// Если ближайшая не ответила и показана следующая, в карточке об этом пишем (skippedName, skippedKm).
+// ---------- Weather station: nearest airport (METAR, MET Norway) ----------
+// aviationweather.gov does not let the browser in (no CORS). api.met.no allows simple requests from small sites.
+// If the nearest station has no fresh report (small airports go silent at night and off-season), take the next one.
+// If the nearest did not respond and the next one is shown, the card says so (skippedName, skippedKm).
 async function loadStation(spot) {
   let skipped = null;
   for (const st of nearestStations(spot.lat, spot.lon)) {
     try {
       const d = await loadMetar(st);
       if (d) return skipped ? Object.assign(d, { skippedName: skipped.name, skippedKm: Math.round(skipped.km) }) : d;
-    } catch (e) { /* пробуем следующую станцию */ }
+    } catch (e) { /* try the next station */ }
     if (!skipped) skipped = st;
   }
   return null;
@@ -457,7 +457,7 @@ async function loadStation(spot) {
 
 async function loadMetar(st) {
   const text = await fetchRetry(`https://api.met.no/weatherapi/tafmetar/1.0/metar.txt?icao=${st.icao}`, 9000, res => res.text());
-  // В ответе все сводки за сутки, берём самую свежую
+  // The response contains all reports for the past day; take the most recent
   const now = new Date();
   let m = null;
   text.split('\n').forEach(line => {
@@ -465,21 +465,21 @@ async function loadMetar(st) {
     if (p && p.icao === st.icao && (!m || p.t >= m.t)) m = p;
   });
   if (!m) return null;
-  if ((now - m.t) / 60000 > 360) return null; // старше 6 часов не показываем
+  if ((now - m.t) / 60000 > 360) return null; // do not show anything older than 6 hours
   return {
     icao: st.icao, name: st.name, km: Math.round(st.km),
-    time: hmStr(m.t.getHours() * 60 + m.t.getMinutes()), // время в часовом поясе устройства
+    time: hmStr(m.t.getHours() * 60 + m.t.getMinutes()), // time in the device's time zone
     temp: m.temp, windDir: m.windDir, wind: m.wind, gust: m.gust,
     pressure: m.pressure, vis: m.vis
   };
 }
 
-// Разбор строки METAR, например: LBBG 012000Z 07017G27KT 9000 -RA BKN010 15/13 Q1020 NOSIG=
+// Parsing a METAR string, for example: LBBG 012000Z 07017G27KT 9000 -RA BKN010 15/13 Q1020 NOSIG=
 function parseMetar(line, now) {
   const tokens = line.replace(/=/g, ' ').trim().split(/\s+/);
   const time = /^(\d{2})(\d{2})(\d{2})Z$/.exec(tokens[1] || '');
   if (!time || tokens.includes('NIL')) return null;
-  // В сводке только день месяца: дата из будущего значит прошлый месяц
+  // The report contains only the day of the month: a date in the future means the previous month
   const at = month => new Date(Date.UTC(now.getUTCFullYear(), month, +time[1], +time[2], +time[3]));
   let t = at(now.getUTCMonth());
   if (t - now > 86400000) t = at(now.getUTCMonth() - 1);
@@ -487,14 +487,14 @@ function parseMetar(line, now) {
   const KT = 0.514444;
   const signed = s => (s[0] === 'M' ? -Number(s.slice(1)) : Number(s));
   for (const tk of tokens.slice(2)) {
-    // Дальше прогноз на ближайшие часы (TEMPO, BECMG), а не измерение
+    // What follows is a forecast for the next hours (TEMPO, BECMG), not a measurement
     if (/^(NOSIG|TEMPO|BECMG|RMK)$/.test(tk)) break;
     let r;
     if (Number.isNaN(out.wind) && (r = /^(\d{3}|VRB)(\d{2,3})(?:G(\d{2,3}))?(KT|MPS)$/.exec(tk))) {
       const k = r[4] === 'KT' ? KT : 1;
       out.wind = Number(r[2]) * k;
       if (r[3]) out.gust = Number(r[3]) * k;
-      if (r[1] !== 'VRB' && out.wind > 0) out.windDir = Number(r[1]); // у штиля и переменного ветра направления нет
+      if (r[1] !== 'VRB' && out.wind > 0) out.windDir = Number(r[1]); // calm and variable wind have no direction
     } else if (Number.isNaN(out.vis) && tk === 'CAVOK') {
       out.vis = 10;
     } else if (Number.isNaN(out.vis) && (r = /^(\d{4})(NDV|[NSEW]{1,2})?$/.exec(tk))) {
@@ -510,7 +510,7 @@ function parseMetar(line, now) {
   return out;
 }
 
-// ---------- Привязка пресетов к воде (EMODnet): точку на суше сдвигаем в ближайшее море ----------
+// ---------- Snapping presets to water (EMODnet): a point on land is moved to the nearest sea ----------
 async function snapToWater(lat, lon, shore) {
   const probe = async (la, lo) => {
     try {
@@ -520,7 +520,7 @@ async function snapToWater(lat, lon, shore) {
   };
   const water = p => p.ok && p.v !== null && p.v <= (shore ? -1.5 : -3);
   const p0 = await probe(lat, lon);
-  if (!p0.ok) return null;          // сервис не ответил: оставляем как есть
+  if (!p0.ok) return null;          // the service did not respond: leave as is
   if (water(p0)) return { lat, lon };
   const kmLat = 1 / 111.32, kmLon = 1 / (111.32 * Math.cos(lat * Math.PI / 180));
   const rings = shore ? [0.12, 0.25, 0.4, 0.6, 0.9, 1.3, 2, 3, 5] : [0.7, 1.4, 2.2, 3.2, 4.6, 6.5, 9, 12];
@@ -535,7 +535,7 @@ async function snapToWater(lat, lon, shore) {
     let best = -1, bestD = 0;
     res.forEach((p, i) => {
       if (!water(p)) return;
-      // берег: берём самую мелкую воду в кольце (кромка воды); пресеты в море: самую глубокую
+      // shore: take the shallowest water in the ring (the water's edge); sea presets: the deepest
       if (shore ? (best < 0 || -p.v < bestD) : -p.v > bestD) { bestD = -p.v; best = i; }
     });
     if (best >= 0) return { lat: +cands[best][0].toFixed(5), lon: +cands[best][1].toFixed(5) };

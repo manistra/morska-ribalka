@@ -1,4 +1,4 @@
-// Дневник уловов. Записи лежат в localStorage, фото в IndexedDB (маленькие, до 1280 px).
+// Catch diary. Entries are stored in localStorage, photos in IndexedDB (small, up to 1280 px).
 const Diary = {
   load() {
     const list = Store.get('diary', []);
@@ -17,26 +17,26 @@ const Diary = {
   }
 };
 
-// Новые сверху. Записи задним числом встают на своё место по времени улова
+// Newest on top. Entries made after the fact take their place by catch time
 function sortEntries(list) { return list.sort((a, b) => (a.time < b.time ? 1 : a.time > b.time ? -1 : 0)); }
 
-// Насколько назад можно указать время улова: дальше данные для условий могут быть неполными
+// How far back the catch time can be set: further than that, the data for conditions may be incomplete
 const DIARY_BACK_DAYS = 30;
 const canReload = iso => Date.now() - new Date(iso).getTime() <= DIARY_BACK_DAYS * 86400000;
 
-// Час во времени страны в виде, в котором его отдаёт Open-Meteo
+// The hour in the country's time, in the form Open-Meteo returns it
 function localHourIso(ms) {
   const n = nowLocal(ms);
   return `${n.date}T${pad2(n.hour)}:00`;
 }
 
-// Значение для поля datetime-local (время браузера, без секунд)
+// Value for a datetime-local field (browser time, no seconds)
 function toLocalInput(ms) {
   const d = new Date(ms);
   return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}T${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 }
 
-// Поля записи с условиями на момент ms. NaN в JSON не хранится, поэтому null
+// Entry fields with conditions at moment ms. NaN is not stored in JSON, hence null
 function conditionFields(d, fish, boat, ms, fromModel, lat, lon) {
   const num = v => (isNaN_(v) ? null : v);
   return {
@@ -48,7 +48,7 @@ function conditionFields(d, fish, boat, ms, fromModel, lat, lon) {
   };
 }
 
-// Подтягивает условия записям, которым их ещё не загрузили: без интернета, с изменённым временем или точкой
+// Fills in conditions for entries that do not have them yet: no internet, edited time or point
 async function fillPending(S, A) {
   const todo = Diary.load().filter(e => e.pending);
   if (!todo.length || S.pendingBusy || Date.now() - (S.pendingTriedAt || 0) < 60000) return;
@@ -69,7 +69,7 @@ async function fillPending(S, A) {
   if (changed) A.rerender();
 }
 
-// ---------- Фото в IndexedDB ----------
+// ---------- Photos in IndexedDB ----------
 const Photos = {
   _db: null,
   open() {
@@ -107,9 +107,9 @@ const Photos = {
     try {
       const db = await this.open();
       db.transaction('photos', 'readwrite').objectStore('photos').delete(id);
-    } catch (e) { /* ничего */ }
+    } catch (e) { /* nothing */ }
   },
-  // уменьшает фото до 1280 px по длинной стороне (EXIF и место съёмки не сохраняются)
+  // shrinks the photo to 1280 px on the longer side (EXIF and shooting location are not kept)
   async shrink(file) {
     const bmp = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
     let w, hgt, source;
@@ -139,7 +139,7 @@ const blobToDataUrl = blob => new Promise((res, rej) => {
 });
 const dataUrlToBlob = url => fetch(url).then(r => r.blob());
 
-// ---------- Резервная копия ----------
+// ---------- Backup ----------
 async function buildBackup() {
   const entries = Diary.load();
   const photos = {};
@@ -173,66 +173,64 @@ async function restoreBackup(file) {
   return added;
 }
 
-// ---------- Статистика и экспорт ----------
+// ---------- Statistics and export ----------
 function avgOf(values) {
   const v = values.filter(x => !isNaN_(x));
   return v.length ? v.reduce((a, b) => a + b, 0) / v.length : NaN;
 }
 
 function diaryStats(list) {
-  if (!list.length) return [tr('Пока нет записей.', 'No entries yet.', 'Još nema zapisa.')];
+  if (!list.length) return [tr('No entries yet.', 'Još nema zapisa.')];
   const good = list.filter(e => e.count > 0), bad = list.filter(e => e.count === 0);
   const lines = [];
-  lines.push(trv('Выходов: {0}, с уловом: {1}, без улова: {2}', 'Trips: {0}, with catch: {1}, without catch: {2}', 'Izlazaka: {0}, sa ulovom: {1}, bez ulova: {2}', [list.length, good.length, bad.length]));
+  lines.push(trv('Trips: {0}, with catch: {1}, without catch: {2}', 'Izlazaka: {0}, sa ulovom: {1}, bez ulova: {2}', [list.length, good.length, bad.length]));
   const totalCount = good.reduce((s, e) => s + e.count, 0);
   const totalWeight = f1(good.filter(e => !isNaN_(e.weightKg)).reduce((s, e) => s + e.weightKg, 0));
-  lines.push(trv('Всего рыбы: {0} шт., вес по записям: {1} кг', 'Total fish: {0} pcs, weight in entries: {1} kg', 'Ukupno ribe: {0} kom, težina u zapisima: {1} kg', [totalCount, totalWeight]));
+  lines.push(trv('Total fish: {0} pcs, weight in entries: {1} kg', 'Ukupno ribe: {0} kom, težina u zapisima: {1} kg', [totalCount, totalWeight]));
   const by = {};
   good.forEach(e => { by[e.fish] = (by[e.fish] || 0) + e.count; });
   const top = Object.entries(by).sort((a, b) => b[1] - a[1])[0];
   if (top) {
     const name = fishLabel(top[0]);
-    lines.push(trv('Чаще всего ловится: {0} ({1} шт.)', 'Most often caught: {0} ({1} pcs)', 'Najčešće se lovi: {0} ({1} kom)', [name, top[1]]));
+    lines.push(trv('Most often caught: {0} ({1} pcs)', 'Najčešće se lovi: {0} ({1} kom)', [name, top[1]]));
   }
   if (good.length >= 3 && bad.length >= 3) {
-    lines.push(tr('Средние условия (удачные выходы / без улова):', 'Average conditions (successful trips / no catch):', 'Prosječni uslovi (uspješni izlasci / bez ulova):'));
+    lines.push(tr('Average conditions (successful trips / no catch):', 'Prosječni uslovi (uspješni izlasci / bez ulova):'));
     const fG = avgOf(good.filter(e => e.forecast >= 0).map(e => e.forecast));
     const fB = avgOf(bad.filter(e => e.forecast >= 0).map(e => e.forecast));
     const fm = v => (isNaN_(v) ? noData() : f1(v));
-    lines.push('• ' + tr('Прогноз клёва', 'Bite forecast', 'Prognoza ulova') + `: ${fm(fG)} / ${fm(fB)}`);
+    lines.push('• ' + tr('Bite forecast', 'Prognoza ulova') + `: ${fm(fG)} / ${fm(fB)}`);
     const row = (label, key, unit) => '• ' + label + `: ${fmt(avgOf(good.map(e => e[key])), unit)} / ${fmt(avgOf(bad.map(e => e[key])), unit)}`;
-    lines.push(row(tr('Ветер', 'Wind', 'Vjetar'), 'wind', U.ms));
-    lines.push(row(tr('Волна', 'Waves', 'Talasi'), 'wave', U.m()));
-    lines.push(row(tr('Давление', 'Pressure', 'Pritisak'), 'pressure', U.hpa()));
-    lines.push(row(tr('Температура воды', 'Water temperature', 'Temperatura vode'), 'waterTemp', '°C'));
-    lines.push(tr('Это просто средние по твоим записям, чем их больше, тем они полезнее.',
-      'These are just averages of your entries; the more entries, the more useful they are.',
+    lines.push(row(tr('Wind', 'Vjetar'), 'wind', U.ms));
+    lines.push(row(tr('Waves', 'Talasi'), 'wave', U.m()));
+    lines.push(row(tr('Pressure', 'Pritisak'), 'pressure', U.hpa()));
+    lines.push(row(tr('Water temperature', 'Temperatura vode'), 'waterTemp', '°C'));
+    lines.push(tr('These are just averages of your entries; the more entries, the more useful they are.',
       'Ovo su samo prosjeci iz tvojih zapisa; što ih je više, to su korisniji.'));
   } else {
-    lines.push(tr('Для сравнения условий нужно минимум 3 выхода с уловом и 3 без улова.',
-      'To compare conditions you need at least 3 trips with a catch and 3 without.',
+    lines.push(tr('To compare conditions you need at least 3 trips with a catch and 3 without.',
       'Za poređenje uslova potrebna su najmanje 3 izlaska sa ulovom i 3 bez ulova.'));
   }
   return lines;
 }
 
 function entryTitle(e) {
-  return e.count === 0 ? tr('Выход без улова', 'Trip with no catch', 'Izlazak bez ulova')
-    : `${fishLabel(e.fish)} × ${e.count}` + (!isNaN_(e.weightKg) ? ` · ${f1(e.weightKg)} ${tr('кг', 'kg', 'kg')}` : '');
+  return e.count === 0 ? tr('Trip with no catch', 'Izlazak bez ulova')
+    : `${fishLabel(e.fish)} × ${e.count}` + (!isNaN_(e.weightKg) ? ` · ${f1(e.weightKg)} ${tr('kg', 'kg')}` : '');
 }
 function fmtTime(iso) {
   try {
-    const loc = { ru: 'ru-RU', en: 'en-GB', sr: 'sr-Latn-ME', hr: 'hr-HR', it: 'it-IT', el: 'el-GR', sq: 'sq-AL', bg: 'bg-BG', sl: 'sl-SI', de: 'de-DE', es: 'es-ES', tr: 'tr-TR' }[Lang.current] || 'en-GB';
+    const loc = { en: 'en-GB', sr: 'sr-Latn-ME', hr: 'hr-HR', it: 'it-IT', el: 'el-GR', sq: 'sq-AL', sl: 'sl-SI', de: 'de-DE', es: 'es-ES', tr: 'tr-TR' }[Lang.current] || 'en-GB';
     return new Date(iso).toLocaleString(loc, { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
   } catch (e) { return iso; }
 }
 
 function diaryText(list) {
-  let out = tr('Дневник уловов', 'Catch diary', 'Dnevnik ulova') + '\n\n';
+  let out = tr('Catch diary', 'Dnevnik ulova') + '\n\n';
   list.forEach(e => {
-    out += `${fmtTime(e.time)} · ${e.spot ? spotLabel(e.spot) + ' · ' : ''}${e.boat ? tr('лодка', 'boat', 'čamac') : tr('берег', 'shore', 'obala')}\n${entryTitle(e)}\n`;
-    if (!isNaN_(e.lat)) out += `${tr('Точка', 'Point', 'Tačka')}: ${e.lat.toFixed(5)}, ${e.lon.toFixed(5)}\n`;
-    if (e.note) out += `${tr('Комментарий', 'Comment', 'Komentar')}: ${e.note}\n`;
+    out += `${fmtTime(e.time)} · ${e.spot ? spotLabel(e.spot) + ' · ' : ''}${e.boat ? tr('boat', 'čamac') : tr('shore', 'obala')}\n${entryTitle(e)}\n`;
+    if (!isNaN_(e.lat)) out += `${tr('Point', 'Tačka')}: ${e.lat.toFixed(5)}, ${e.lon.toFixed(5)}\n`;
+    if (e.note) out += `${tr('Comment', 'Komentar')}: ${e.note}\n`;
     out += '\n';
   });
   return out;

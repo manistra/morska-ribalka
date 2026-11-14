@@ -1,5 +1,5 @@
-// Анимированный подводный фон: лучи света, волны, рыбки, пузыри и планктон.
-// Рисуется на canvas позади всего приложения. Можно отключить в настройках.
+// Animated underwater background: light rays, waves, fish, bubbles and plankton.
+// Drawn on a canvas behind the whole app. Can be turned off in settings.
 const Bg = (() => {
   let cv = null, ctx = null, W = 0, H = 0, dpr = 1, raf = 0, last = 0, t = 0;
   let mode = 'video', held = false, pal = null, grad = null, vid = null, veil = null;
@@ -69,7 +69,7 @@ const Bg = (() => {
     ctx.closePath();
     ctx.fillStyle = `rgba(${pal.fish},${pal.fishA * f.depth})`;
     ctx.fill();
-    // спинной плавник
+    // dorsal fin
     ctx.beginPath();
     ctx.moveTo(.15 * s, -.3 * s); ctx.lineTo(-.2 * s, -.58 * s + w * .3); ctx.lineTo(-.3 * s, -.28 * s);
     ctx.closePath(); ctx.fill();
@@ -85,7 +85,7 @@ const Bg = (() => {
     if (!grad) { grad = ctx.createLinearGradient(0, 0, 0, H); grad.addColorStop(0, pal.top); grad.addColorStop(1, pal.bot); }
     ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
-    // лучи света
+    // light rays
     for (const r of rays) {
       const a = pal.rayA * (.55 + .45 * Math.sin(t * r.sp + r.ph));
       const x = r.x + Math.sin(t * r.sp * .6 + r.ph) * 30, len = H * .85;
@@ -98,7 +98,7 @@ const Bg = (() => {
       ctx.closePath(); ctx.fill();
     }
 
-    // волны у поверхности
+    // waves near the surface
     for (let i = 0; i < 3; i++) {
       const base = 10 + i * 13, amp = 5 + i * 2, sp = (.5 + i * .25) * (i % 2 ? -1 : 1), len = 90 + i * 55;
       ctx.beginPath(); ctx.moveTo(0, 0);
@@ -107,7 +107,7 @@ const Bg = (() => {
       ctx.fillStyle = `rgba(${pal.wave},${pal.waveA * (1 - i * .22)})`; ctx.fill();
     }
 
-    // планктон
+    // plankton
     ctx.fillStyle = `rgba(${pal.dust},.35)`;
     for (const d of dust) {
       d.x += d.vx * dt; d.y += d.vy * dt;
@@ -118,7 +118,7 @@ const Bg = (() => {
     }
     ctx.globalAlpha = 1;
 
-    // рыбки
+    // fish
     for (const f of fish) {
       f.x += f.v * f.dir * dt;
       if (f.dir > 0 && f.x > W + f.s * 2) { f.x = -f.s * 2; if (!f.school) f.y = rnd(H * .16, H * .78); }
@@ -126,7 +126,7 @@ const Bg = (() => {
       drawFish(f);
     }
 
-    // пузыри
+    // bubbles
     ctx.lineWidth = 1;
     for (const b of bubbles) {
       b.y -= b.v * dt;
@@ -143,7 +143,7 @@ const Bg = (() => {
   }
   function tick(ts) { if (ts - last < 32) { raf = requestAnimationFrame(tick); return; } frame(ts, false); }
 
-  // ---- видеофон ----
+  // ---- video background ----
   function ensureVideo() {
     if (vid) return vid;
     vid = document.createElement('video');
@@ -156,7 +156,7 @@ const Bg = (() => {
     document.body.prepend(veil); document.body.prepend(vid);
     return vid;
   }
-  // если видео не запустилось (экономия заряда, старый браузер), показываем рыбок
+  // if the video did not start (battery saving, old browser), show the fish
   function fallback() { if (mode === 'video') { mode = 'fish'; run(); } }
 
   function run() {
@@ -166,7 +166,7 @@ const Bg = (() => {
     document.body.classList.toggle('has-bg', mode !== 'off');
     if (showVideo) {
       ensureVideo();
-      // на широком экране (компьютер) горизонтальный ролик, на телефоне вертикальный
+      // on a wide screen (desktop) a horizontal clip, on a phone a vertical one
       const want = window.innerWidth / window.innerHeight > 1.15 ? 'bg-wide.mp4' : 'bg.mp4';
       if (vid.getAttribute('data-src') !== want) { vid.setAttribute('data-src', want); vid.src = want; }
       vid.style.display = 'block'; veil.style.display = 'block';

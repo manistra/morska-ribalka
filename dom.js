@@ -1,4 +1,4 @@
-// Мелкие помощники для построения экрана без библиотек
+// Small helpers for building the screen without libraries
 function h(tag, attrs, ...kids) {
   const el = document.createElement(tag);
   if (attrs) {
@@ -37,7 +37,7 @@ function btn(label, onclick, opts = {}) {
   }, label);
 }
 
-// Ряд кнопок-переключателей: текущая закрашена
+// A row of toggle buttons: the current one is filled
 function segmented(items, current, onPick) {
   return h('div', { class: 'seg' }, items.map(([key, label, disabled]) =>
     h('button', {
@@ -53,7 +53,7 @@ function select(options, current, onChange) {
   return s;
 }
 
-// Сохранить файл (на iPhone через меню «Поделиться», на остальных обычной загрузкой)
+// Save a file (on iPhone via the Share menu, elsewhere as a regular download)
 async function saveFile(name, blob) {
   try {
     const file = new File([blob], name, { type: blob.type });

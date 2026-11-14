@@ -1,30 +1,25 @@
 window.DATA = {
  "lib": [
   {
-   "key": "Сибас",
+   "key": "Sea bass",
    "latin": "Dicentrarchus labrax",
    "where": [
-    "Берег, устья, камни, волноломы, прибой. Глубины до 30 м.",
     "Shore, river mouths, rocks, breakwaters, surf. Down to 30 m.",
     "Obala, ušća, stijene, lukobrani, prasak. Do 30 m."
    ],
    "bait": [
-    "Живая креветка, червь, живая рыбка, воблеры, силиконовые рыбки.",
     "Live shrimp, worms, live baitfish, minnow plugs, soft lures.",
     "Živa kozica, crvi, živa ribica, vobleri, silikonske varalice."
    ],
    "hours": [
-    "Сумерки, ночь, рассвет; после шторма при мутной воде.",
     "Dusk, night, dawn; after a storm in murky water.",
     "Sumrak, noć, zora; poslije oluje u mutnoj vodi."
    ],
    "season": [
-    "Октябрь – март.",
     "October – March.",
     "Oktobar – mart."
    ],
    "rule": [
-    "Минимальный размер 25 см (по приказу 8/2011).",
     "Minimum size 25 cm (Order 8/2011).",
     "Minimalna veličina 25 cm (Naredba 8/2011)."
    ],
@@ -33,30 +28,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Дорадо",
+   "key": "Gilthead bream",
    "latin": "Sparus aurata",
    "where": [
-    "Песчаные и ракушечные участки у скал, 2–30 м, лагуны.",
     "Sandy and shell bottoms near rocks, 2–30 m, lagoons.",
     "Pješčano i školjkasto dno uz stijene, 2–30 m, lagune."
    ],
    "bait": [
-    "Мидия, креветка, червь, мелкий краб, ракушка.",
     "Mussel, shrimp, worms, small crab, shellfish.",
     "Dagnja, kozica, crvi, mali rak, školjka."
    ],
    "hours": [
-    "Утро и вечер, на смене воды.",
     "Morning and evening, at the tide change.",
     "Jutro i veče, na promjeni vode."
    ],
    "season": [
-    "Апрель – ноябрь, пик осенью.",
     "April – November, peak in autumn.",
     "April – novembar, vrhunac u jesen."
    ],
    "rule": [
-    "Минимальный размер 20 см (по приказу 8/2011).",
     "Minimum size 20 cm (Order 8/2011).",
     "Minimalna veličina 20 cm (Naredba 8/2011)."
    ],
@@ -65,30 +55,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Зубан",
+   "key": "Common dentex",
    "latin": "Dentex dentex",
    "where": [
-    "Скалы, пещеры и свалы 15–60 м.",
     "Rocks, caves and drop-offs 15–60 m.",
     "Stijene, pećine i padovi 15–60 m."
    ],
    "bait": [
-    "Живой кальмар или каракатица, живая рыбка, джиг.",
     "Live squid or cuttlefish, live baitfish, jigs.",
     "Živa lignja ili sipa, živa ribica, džig."
    ],
    "hours": [
-    "Рассвет и закат.",
     "Dawn and dusk.",
     "Zora i sumrak."
    ],
    "season": [
-    "Март – июнь и октябрь – ноябрь.",
     "March – June and October – November.",
     "Mart – jun i oktobar – novembar."
    ],
    "rule": [
-    "Минимальный размер 30 см (по приказу 8/2011).",
     "Minimum size 30 cm (Order 8/2011).",
     "Minimalna veličina 30 cm (Naredba 8/2011)."
    ],
@@ -97,30 +82,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Гоф (сериола)",
+   "key": "Amberjack (gof)",
    "latin": "Seriola dumerili",
    "where": [
-    "Открытое море, рифы, подводные горы, 20–100 м.",
     "Open sea, reefs, seamounts, 20–100 m.",
     "Otvoreno more, grebeni, podvodne planine, 20–100 m."
    ],
    "bait": [
-    "Живая рыбка (ставрида, скумбрия), попер, джиг.",
     "Live baitfish (horse mackerel, mackerel), popper, jigs.",
     "Živa ribica (šnjur, skuša), poper, džig."
    ],
    "hours": [
-    "Утро и вечер, при течении.",
     "Morning and evening, with current.",
     "Jutro i veče, uz struju."
    ],
    "season": [
-    "Июнь – октябрь.",
     "June – October.",
     "Jun – oktobar."
    ],
    "rule": [
-    "Минимальный размер 50 см (по приказу 8/2011).",
     "Minimum size 50 cm (Order 8/2011).",
     "Minimalna veličina 50 cm (Naredba 8/2011)."
    ],
@@ -129,30 +109,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Луфарь",
+   "key": "Bluefish",
    "latin": "Pomatomus saltatrix",
    "where": [
-    "Открытая вода, мысы, места с мелочью, косяки у поверхности.",
     "Open water, capes, baitfish schools near the surface.",
     "Otvorena voda, rtovi, jata sitne ribe uz površinu."
    ],
    "bait": [
-    "Блёсны, воблеры, живая рыбка, поводок из металла (острые зубы).",
     "Spoons, plugs, live baitfish, wire leader (sharp teeth).",
     "Varalice, vobleri, živa ribica, metalni predvez (oštri zubi)."
    ],
    "hours": [
-    "Рассвет, закат, пасмурный день.",
     "Dawn, dusk, overcast days.",
     "Zora, sumrak, oblačan dan."
    ],
    "season": [
-    "Июнь – октябрь.",
     "June – October.",
     "Jun – oktobar."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -161,30 +136,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Баракуда",
+   "key": "Barracuda",
    "latin": "Sphyraena sphyraena",
    "where": [
-    "Над скалами и у стен, косяки у поверхности.",
     "Over rocks and walls, schools near the surface.",
     "Iznad stijena i zidova, jata uz površinu."
    ],
    "bait": [
-    "Воблеры, длинные блёсны, живая рыбка. Нужен стальной поводок.",
     "Plugs, long spoons, live bait. Use a steel leader.",
     "Vobleri, duge varalice, živa ribica. Treba čelični predvez."
    ],
    "hours": [
-    "Утро и вечер.",
     "Morning and evening.",
     "Jutro i veče."
    ],
    "season": [
-    "Июнь – сентябрь.",
     "June – September.",
     "Jun – septembar."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -193,30 +163,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Пеламида",
+   "key": "Bonito",
    "latin": "Sarda sarda",
    "where": [
-    "Открытое море, течения, мысы. Стаи гоняют мелочь.",
     "Open sea, currents, capes. Schools chase baitfish.",
     "Otvoreno more, struje, rtovi. Jata love sitnu ribu."
    ],
    "bait": [
-    "Блёсны, воблеры, перья, троллинг, лёгкий джиг.",
     "Spoons, plugs, feathers, trolling, light jigs.",
     "Varalice, vobleri, perje, trolling, laki džig."
    ],
    "hours": [
-    "Утро и вечер, когда видны всплески.",
     "Morning and evening, when you see splashes.",
     "Jutro i veče, kad se vide prskanja."
    ],
    "season": [
-    "Август – ноябрь.",
     "August – November.",
     "Avgust – novembar."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -225,30 +190,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Тунец",
+   "key": "Tuna",
    "latin": "Thunnus thynnus",
    "where": [
-    "Открытое море, глубины от 100 м.",
     "Open sea, from 100 m deep.",
     "Otvoreno more, od 100 m dubine."
    ],
    "bait": [
-    "Троллинг, живая рыбка, попер, большие джиги.",
     "Trolling, live bait, poppers, heavy jigs.",
     "Trolling, živa ribica, poper, teški džigovi."
    ],
    "hours": [
-    "Утро и вечер.",
     "Morning and evening.",
     "Jutro i veče."
    ],
    "season": [
-    "Лето и начало осени.",
     "Summer and early autumn.",
     "Ljeto i rana jesen."
    ],
    "rule": [
-    "Нужна отдельная суточная лицензия для крупной рыбы (big game), судно с AIS, уведомление центра мониторинга минимум за час до возвращения и электронный журнал улова. Размер и условия уточняйте в клубе.",
     "A special daily big-game licence is required, the vessel needs AIS, notify the monitoring centre at least one hour before landing and keep an electronic catch log. Ask your club for size and conditions.",
     "Potrebna je posebna dnevna dozvola za krupnu ribu (big game), plovilo mora imati AIS, obavijestite centar za praćenje najmanje sat prije povratka i vodite elektronski dnevnik. Veličinu i uslove provjerite u klubu."
    ],
@@ -257,30 +217,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Махи-махи",
+   "key": "Mahi-mahi",
    "latin": "Coryphaena hippurus",
    "where": [
-    "Открытое море у плавающих предметов, водорослей, ящиков.",
     "Open sea near floating objects and weed.",
     "Otvoreno more uz plutajuće predmete i alge."
    ],
    "bait": [
-    "Троллинг, живая рыбка, перья, поперы.",
     "Trolling, live bait, feathers, poppers.",
     "Trolling, živa ribica, perje, poperi."
    ],
    "hours": [
-    "Дневные часы, солнце, спокойное море.",
     "Daytime, sun, calm sea.",
     "Dnevni sati, sunce, mirno more."
    ],
    "season": [
-    "Август – ноябрь.",
     "August – November.",
     "Avgust – novembar."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -289,30 +244,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Кальмар",
+   "key": "Squid",
    "latin": "Loligo vulgaris",
    "where": [
-    "У берега, у причалов и фонарей, 2–30 м.",
     "Near the shore, piers and lamps, 2–30 m.",
     "Uz obalu, mule i svjetla, 2–30 m."
    ],
    "bait": [
-    "Эги (кальмарницы), лёгкая оснастка. Лампа на снасти не более 400 кд.",
     "Squid jigs (egi), light tackle. A lamp on the gear must not exceed 400 cd.",
     "Egi varalice, lak pribor. Lampa na priboru najviše 400 cd."
    ],
    "hours": [
-    "Ночь и сумерки, спокойная вода.",
     "Night and dusk, calm water.",
     "Noć i sumrak, mirna voda."
    ],
    "season": [
-    "Октябрь – январь.",
     "October – January.",
     "Oktobar – januar."
    ],
    "rule": [
-    "Снасть для головоногих: не более двух, с лампой до 400 кд.",
     "Cephalopod gear: no more than two, lamp up to 400 cd.",
     "Pribor za glavonošce: najviše dva, lampa do 400 cd."
    ],
@@ -321,30 +271,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Ласкирь",
+   "key": "Annular seabream",
    "latin": "Diplodus annularis",
    "where": [
-    "Камни, водоросли, пирсы, 1–20 м.",
     "Rocks, weed, piers, 1–20 m.",
     "Stijene, alge, mule, 1–20 m."
    ],
    "bait": [
-    "Червь, креветка, кусочки мидии, лёгкая оснастка.",
     "Worms, shrimp, mussel pieces, light tackle.",
     "Crvi, kozica, komadići dagnje, lak pribor."
    ],
    "hours": [
-    "Утро и день.",
     "Morning and daytime.",
     "Jutro i dan."
    ],
    "season": [
-    "Весна и осень.",
     "Spring and autumn.",
     "Proljeće i jesen."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -353,30 +298,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Сарган",
+   "key": "Garfish",
    "latin": "Belone belone",
    "where": [
-    "У самой поверхности, косяки у берега весной.",
     "Right at the surface, shoals near the shore in spring.",
     "Tik uz površinu, jata uz obalu u proljeće."
    ],
    "bait": [
-    "Поплавочная снасть с полоской рыбы, мелкие блёсны.",
     "Float rig with a strip of fish, small spoons.",
     "Plovak s trakom ribe, sitne varalice."
    ],
    "hours": [
-    "День, спокойная вода.",
     "Daytime, calm water.",
     "Dan, mirna voda."
    ],
    "season": [
-    "Март – май.",
     "March – May.",
     "Mart – maj."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -385,30 +325,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Скумбрия",
+   "key": "Mackerel",
    "latin": "Scomber scombrus",
    "where": [
-    "Косяки в толще воды и у поверхности.",
     "Schools in mid-water and near the surface.",
     "Jata u sredini vode i uz površinu."
    ],
    "bait": [
-    "Самодуры (сабики), мелкие блёсны, кусочки рыбы.",
     "Sabiki rigs, small spoons, fish strips.",
     "Sabiki, sitne varalice, trake ribe."
    ],
    "hours": [
-    "Утро и вечер.",
     "Morning and evening.",
     "Jutro i veče."
    ],
    "season": [
-    "Осень – зима, местами весна.",
     "Autumn – winter, spring in places.",
     "Jesen – zima, mjestimično proljeće."
    ],
    "rule": [
-    "Минимальный размер в найденных мной источниках не указан. Уточните в рыболовном клубе.",
     "No minimum size found in the sources I checked. Ask a fishing club.",
     "Minimalna veličina nije navedena u izvorima koje sam provjerio. Pitajte ribolovački klub."
    ],
@@ -417,30 +352,25 @@ window.DATA = {
    "sr": null
   },
   {
-   "key": "Арбун",
+   "key": "Common pandora",
    "latin": "Pagellus erythrinus",
    "where": [
-    "Песок и ил у скал, 20–100 м",
     "Sand and mud near rocks, 20–100 m",
     "Pijesak i mulj uz stijene, 20–100 m"
    ],
    "bait": [
-    "Креветка, кусочки рыбы и кальмара",
     "Shrimp, pieces of fish and squid",
     "Kozica, komadi ribe i lignje"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Круглый год, лучше лето",
     "Year-round, best in summer",
     "Cijele godine, najbolje ljeti"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -449,30 +379,25 @@ window.DATA = {
    "sr": "Arbun"
   },
   {
-   "key": "Пагр",
+   "key": "Common seabream",
    "latin": "Pagrus pagrus",
    "where": [
-    "Скалистое дно 30–120 м",
     "Rocky bottom 30–120 m",
     "Stjenovito dno 30–120 m"
    ],
    "bait": [
-    "Кальмар, креветка, кусочки рыбы",
     "Squid, shrimp, fish pieces",
     "Lignja, kozica, komadi ribe"
    ],
    "hours": [
-    "Рассвет и закат",
     "Dawn and dusk",
     "Zora i sumrak"
    ],
    "season": [
-    "Весна и осень",
     "Spring and autumn",
     "Proljeće i jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -481,30 +406,25 @@ window.DATA = {
    "sr": "Pagar"
   },
   {
-   "key": "Землерой",
+   "key": "Striped seabream",
    "latin": "Lithognathus mormyrus",
    "where": [
-    "Песчаное дно у берега, 1–30 м",
     "Sandy bottom near shore, 1–30 m",
     "Pješčano dno uz obalu, 1–30 m"
    ],
    "bait": [
-    "Червь, мелкая креветка, кусочки мидии",
     "Worms, small shrimp, mussel pieces",
     "Crvi, mala kozica, komadići dagnje"
    ],
    "hours": [
-    "Сумерки и ночь",
     "Dusk and night",
     "Sumrak i noć"
    ],
    "season": [
-    "Лето и осень",
     "Summer and autumn",
     "Ljeto i jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -513,30 +433,25 @@ window.DATA = {
    "sr": "Ovčica"
   },
   {
-   "key": "Пунтазо",
+   "key": "Sharpsnout seabream",
    "latin": "Diplodus puntazzo",
    "where": [
-    "Камни и волноломы, прибойная зона",
     "Rocks and breakwaters, surf zone",
     "Stijene i lukobrani, zona praska"
    ],
    "bait": [
-    "Мидия, червь, ракушка, водоросли",
     "Mussel, worms, shellfish, weed",
     "Dagnja, crvi, školjka, alge"
    ],
    "hours": [
-    "День, особенно после волнения",
     "Daytime, especially after rough water",
     "Dan, posebno poslije valova"
    ],
    "season": [
-    "Осень – зима",
     "Autumn – winter",
     "Jesen – zima"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -545,30 +460,25 @@ window.DATA = {
    "sr": "Pic"
   },
   {
-   "key": "Двуполосый сарг",
+   "key": "Two-banded seabream",
    "latin": "Diplodus vulgaris",
    "where": [
-    "Скалы и камни, 2–40 м",
     "Rocks and stones, 2–40 m",
     "Stijene i kamenje, 2–40 m"
    ],
    "bait": [
-    "Червь, креветка, мидия",
     "Worms, shrimp, mussel",
     "Crvi, kozica, dagnja"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Круглый год, лучше осенью",
     "Year-round, best in autumn",
     "Cijele godine, najbolje u jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -577,30 +487,25 @@ window.DATA = {
    "sr": "Fratar"
   },
   {
-   "key": "Белый сарг",
+   "key": "White seabream",
    "latin": "Diplodus sargus",
    "where": [
-    "Скалы, пирсы, прибой, 1–30 м",
     "Rocks, piers, surf, 1–30 m",
     "Stijene, mule, prasak, 1–30 m"
    ],
    "bait": [
-    "Крабик, креветка, мидия, червь",
     "Small crab, shrimp, mussel, worms",
     "Rakovica, kozica, dagnja, crvi"
    ],
    "hours": [
-    "Утро, вечер, после волнения",
     "Morning, evening, after rough water",
     "Jutro, veče, poslije valova"
    ],
    "season": [
-    "Осень – весна",
     "Autumn – spring",
     "Jesen – proljeće"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -609,30 +514,25 @@ window.DATA = {
    "sr": "Sarag"
   },
   {
-   "key": "Кантар",
+   "key": "Black seabream",
    "latin": "Spondyliosoma cantharus",
    "where": [
-    "Водоросли и скалы, 5–50 м",
     "Weed and rocks, 5–50 m",
     "Alge i stijene, 5–50 m"
    ],
    "bait": [
-    "Червь, креветка, кусочки кальмара",
     "Worms, shrimp, squid pieces",
     "Crvi, kozica, komadi lignje"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Весна и осень",
     "Spring and autumn",
     "Proljeće i jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -641,30 +541,25 @@ window.DATA = {
    "sr": "Kantar"
   },
   {
-   "key": "Сальпа",
+   "key": "Salema",
    "latin": "Sarpa salpa",
    "where": [
-    "Водоросли у скал, мелководье",
     "Weedy rocks, shallow water",
     "Alge uz stijene, plitko"
    ],
    "bait": [
-    "Хлебный шарик, зелёные водоросли, тесто",
     "Bread, green weed, dough",
     "Kruh, zelene alge, tijesto"
    ],
    "hours": [
-    "Дневные часы",
     "Daytime",
     "Dnevni sati"
    ],
    "season": [
-    "Весна – осень",
     "Spring – autumn",
     "Proljeće – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -673,30 +568,25 @@ window.DATA = {
    "sr": "Salpa"
   },
   {
-   "key": "Облада",
+   "key": "Saddled seabream",
    "latin": "Oblada melanura",
    "where": [
-    "Около пирсов и скал, у поверхности",
     "Around piers and rocks, near the surface",
     "Uz mule i stijene, uz površinu"
    ],
    "bait": [
-    "Хлеб с прикормом, кусочки мидии, тесто",
     "Bread with chum, mussel pieces, dough",
     "Kruh s mamcem, komadi dagnje, tijesto"
    ],
    "hours": [
-    "День и сумерки",
     "Daytime and dusk",
     "Dan i sumrak"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -705,30 +595,25 @@ window.DATA = {
    "sr": "Ušata"
   },
   {
-   "key": "Бопс",
+   "key": "Bogue",
    "latin": "Boops boops",
    "where": [
-    "Косяки на 5–50 м, часто под поверхностью",
     "Schools at 5–50 m, often below the surface",
     "Jata na 5–50 m, često ispod površine"
    ],
    "bait": [
-    "Хлеб, кусочки рыбы, самодур",
     "Bread, fish pieces, sabiki rig",
     "Kruh, komadi ribe, sabiki"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -737,30 +622,25 @@ window.DATA = {
    "sr": "Bugva"
   },
   {
-   "key": "Кефаль",
+   "key": "Mullet",
    "latin": "Mugil cephalus",
    "where": [
-    "Порты, устья, лагуны, мелководье",
     "Harbours, river mouths, lagoons, shallows",
     "Luke, ušća, lagune, plićak"
    ],
    "bait": [
-    "Хлеб, тесто, прикормка",
     "Bread, dough, chum",
     "Kruh, tijesto, mamac"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Весна – осень",
     "Spring – autumn",
     "Proljeće – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -769,30 +649,25 @@ window.DATA = {
    "sr": "Cipal"
   },
   {
-   "key": "Горбыль тёмный",
+   "key": "Brown meagre",
    "latin": "Sciaena umbra",
    "where": [
-    "Скалы, пещеры и стенки, 5–50 м",
     "Rocks, caves and walls, 5–50 m",
     "Stijene, pećine i zidovi, 5–50 m"
    ],
    "bait": [
-    "Креветка, кальмар, краб",
     "Shrimp, squid, crab",
     "Kozica, lignja, rak"
    ],
    "hours": [
-    "Сумерки и ночь",
     "Dusk and night",
     "Sumrak i noć"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -801,30 +676,25 @@ window.DATA = {
    "sr": "Kavala"
   },
   {
-   "key": "Барабуля",
+   "key": "Striped red mullet",
    "latin": "Mullus surmuletus",
    "where": [
-    "Песок и ил, 5–80 м",
     "Sand and mud, 5–80 m",
     "Pijesak i mulj, 5–80 m"
    ],
    "bait": [
-    "Червь, креветка, кусочки мидии",
     "Worms, shrimp, mussel pieces",
     "Crvi, kozica, komadi dagnje"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Круглый год, лучше осенью",
     "Year-round, best in autumn",
     "Cijele godine, najbolje u jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -833,30 +703,25 @@ window.DATA = {
    "sr": "Trlja"
   },
   {
-   "key": "Скорпена чёрная",
+   "key": "Black scorpionfish",
    "latin": "Scorpaena porcus",
    "where": [
-    "Скалы и камни, у дна",
     "Rocks and stones, on the bottom",
     "Stijene i kamenje, uz dno"
    ],
    "bait": [
-    "Креветка, кусочки рыбы, червь",
     "Shrimp, fish pieces, worms",
     "Kozica, komadi ribe, crvi"
    ],
    "hours": [
-    "Вечер и ночь",
     "Evening and night",
     "Veče i noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Ядовитые шипы: не брать голой рукой. При уколе горячая вода и врач.",
     "Venomous spines: do not handle bare-handed. After a sting: hot water and a doctor.",
     "Otrovni šiljci: ne držati golom rukom. Nakon uboda: topla voda i ljekar."
    ],
@@ -865,30 +730,25 @@ window.DATA = {
    "sr": "Škrpun"
   },
   {
-   "key": "Скорпена красная",
+   "key": "Red scorpionfish",
    "latin": "Scorpaena scrofa",
    "where": [
-    "Скалы и впадины, 20–200 м",
     "Rocks and hollows, 20–200 m",
     "Stijene i udubine, 20–200 m"
    ],
    "bait": [
-    "Кусочки рыбы и кальмара, креветка",
     "Fish and squid pieces, shrimp",
     "Komadi ribe i lignje, kozica"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Ядовитые шипы: не брать голой рукой. При уколе горячая вода и врач.",
     "Venomous spines: do not handle bare-handed. After a sting: hot water and a doctor.",
     "Otrovni šiljci: ne držati golom rukom. Nakon uboda: topla voda i ljekar."
    ],
@@ -897,30 +757,25 @@ window.DATA = {
    "sr": "Škrpina"
   },
   {
-   "key": "Морской петух (тригла)",
+   "key": "Streaked gurnard",
    "latin": "Chelidonichthys lastoviza",
    "where": [
-    "Песчаное дно, 20–100 м",
     "Sandy bottom, 20–100 m",
     "Pješčano dno, 20–100 m"
    ],
    "bait": [
-    "Креветка, кусочки рыбы",
     "Shrimp, fish pieces",
     "Kozica, komadi ribe"
    ],
    "hours": [
-    "Рассвет и закат",
     "Dawn and dusk",
     "Zora i sumrak"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -929,30 +784,25 @@ window.DATA = {
    "sr": "Lastavica"
   },
   {
-   "key": "Солнечник",
+   "key": "John Dory",
    "latin": "Zeus faber",
    "where": [
-    "Над песком и илом, 20–150 м",
     "Over sand and mud, 20–150 m",
     "Iznad pijeska i mulja, 20–150 m"
    ],
    "bait": [
-    "Живая рыбка, кусочки кальмара",
     "Live baitfish, squid pieces",
     "Živa ribica, komadi lignje"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Осень – зима",
     "Autumn – winter",
     "Jesen – zima"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -961,30 +811,25 @@ window.DATA = {
    "sr": "Kovač"
   },
   {
-   "key": "Морской дракон",
+   "key": "Greater weever",
    "latin": "Trachinus draco",
    "where": [
-    "Песчаное дно у берега, зарывается",
     "Sandy bottom near shore, buries itself",
     "Pješčano dno uz obalu, zaranja"
    ],
    "bait": [
-    "Червь, креветка, кусочки рыбы",
     "Worms, shrimp, fish pieces",
     "Crvi, kozica, komadi ribe"
    ],
    "hours": [
-    "Вечер и ночь",
     "Evening and night",
     "Veče i noć"
    ],
    "season": [
-    "Лето",
     "Summer",
     "Ljeto"
    ],
    "rule": [
-    "Очень ядовитые шипы на спинном плавнике и жабрах. Брать только через ткань или плоскогубцами. При уколе погрузить в горячую воду и к врачу.",
     "Very venomous spines on the dorsal fin and gills. Handle only with cloth or pliers. After a sting: hot water and a doctor.",
     "Vrlo otrovni šiljci na leđnoj peraji i škrgama. Držati samo krpom ili kliještima. Nakon uboda: topla voda i ljekar."
    ],
@@ -993,30 +838,25 @@ window.DATA = {
    "sr": "Pauk"
   },
   {
-   "key": "Хек",
+   "key": "European hake",
    "latin": "Merluccius merluccius",
    "where": [
-    "Глубины 100–300 м, песок и ил",
     "Depths of 100–300 m, sand and mud",
     "Dubine 100–300 m, pijesak i mulj"
    ],
    "bait": [
-    "Кусочки рыбы и кальмара, джиг",
     "Fish and squid pieces, jigs",
     "Komadi ribe i lignje, džig"
    ],
    "hours": [
-    "Ночь и рассвет",
     "Night and dawn",
     "Noć i zora"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1025,30 +865,25 @@ window.DATA = {
    "sr": "Oslić"
   },
   {
-   "key": "Морской угорь",
+   "key": "European conger",
    "latin": "Conger conger",
    "where": [
-    "Расщелины, обломки, у дна, 10–200 м",
     "Crevices and wrecks, on the bottom, 10–200 m",
     "Pukotine i olupine, uz dno, 10–200 m"
    ],
    "bait": [
-    "Кусочки рыбы, кальмар, сардина",
     "Fish pieces, squid, sardine",
     "Komadi ribe, lignja, sardina"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Сильный, кусается. Нужен крепкий поводок и осторожность при снятии.",
     "Strong and bites. Use a heavy leader and be careful when unhooking.",
     "Jak i grize. Treba jak predvez i oprez pri vađenju udice."
    ],
@@ -1057,30 +892,25 @@ window.DATA = {
    "sr": "Ugor"
   },
   {
-   "key": "Морской чёрт",
+   "key": "Angler (monkfish)",
    "latin": "Lophius piscatorius",
    "where": [
-    "Песок и ил, 30–300 м",
     "Sand and mud, 30–300 m",
     "Pijesak i mulj, 30–300 m"
    ],
    "bait": [
-    "Кусочки рыбы, кальмар",
     "Fish pieces, squid",
     "Komadi ribe, lignja"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1089,30 +919,25 @@ window.DATA = {
    "sr": "Grdobina"
   },
   {
-   "key": "Морской язык (морская камбала)",
+   "key": "Common sole",
    "latin": "Solea solea",
    "where": [
-    "Песок и ил, 5–80 м",
     "Sand and mud, 5–80 m",
     "Pijesak i mulj, 5–80 m"
    ],
    "bait": [
-    "Червь, мелкая креветка",
     "Worms, small shrimp",
     "Crvi, mala kozica"
    ],
    "hours": [
-    "Сумерки и ночь",
     "Dusk and night",
     "Sumrak i noć"
    ],
    "season": [
-    "Осень – зима",
     "Autumn – winter",
     "Jesen – zima"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1121,30 +946,25 @@ window.DATA = {
    "sr": "List"
   },
   {
-   "key": "Зеленушка",
+   "key": "Peacock wrasse",
    "latin": "Symphodus tinca",
    "where": [
-    "Камни и водоросли, 1–20 м",
     "Rocks and weed, 1–20 m",
     "Kamenje i alge, 1–20 m"
    ],
    "bait": [
-    "Червь, креветка, кусочки мидии",
     "Worms, shrimp, mussel pieces",
     "Crvi, kozica, komadi dagnje"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Весна – осень",
     "Spring – autumn",
     "Proljeće – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1153,30 +973,25 @@ window.DATA = {
    "sr": "Lumbrak"
   },
   {
-   "key": "Морской каменный окунь (писец)",
+   "key": "Painted comber",
    "latin": "Serranus scriba",
    "where": [
-    "Скалы и водоросли, 2–30 м",
     "Rocks and weed, 2–30 m",
     "Stijene i alge, 2–30 m"
    ],
    "bait": [
-    "Креветка, червь, кусочки рыбы",
     "Shrimp, worms, fish pieces",
     "Kozica, crvi, komadi ribe"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1185,30 +1000,25 @@ window.DATA = {
    "sr": "Pirka"
   },
   {
-   "key": "Смарида средиземноморская",
+   "key": "Blotched picarel",
    "latin": "Spicara maena",
    "where": [
-    "Косяки у дна, 10–100 м",
     "Schools near the bottom, 10–100 m",
     "Jata uz dno, 10–100 m"
    ],
    "bait": [
-    "Креветка, кусочки рыбы, самодур",
     "Shrimp, fish pieces, sabiki rig",
     "Kozica, komadi ribe, sabiki"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Весна и лето",
     "Spring and summer",
     "Proljeće i ljeto"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1217,30 +1027,25 @@ window.DATA = {
    "sr": "Modrak"
   },
   {
-   "key": "Каменный окунь-ханос",
+   "key": "Comber",
    "latin": "Serranus cabrilla",
    "where": [
-    "Скалы и камни, 5–100 м",
     "Rocks and stones, 5–100 m",
     "Stijene i kamenje, 5–100 m"
    ],
    "bait": [
-    "Креветка, червь, мелкая рыбка",
     "Shrimp, worms, small fish",
     "Kozica, crvi, sitna ribica"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1249,30 +1054,25 @@ window.DATA = {
    "sr": "Kanjac"
   },
   {
-   "key": "Морской юнкер",
+   "key": "Rainbow wrasse",
    "latin": "Coris julis",
    "where": [
-    "Камни и водоросли, 1–40 м",
     "Rocks and weed, 1–40 m",
     "Kamenje i alge, 1–40 m"
    ],
    "bait": [
-    "Червь, кусочки креветки",
     "Worms, shrimp pieces",
     "Crvi, komadi kozice"
    ],
    "hours": [
-    "День",
     "Daytime",
     "Dan"
    ],
    "season": [
-    "Лето",
     "Summer",
     "Ljeto"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1281,10 +1081,9 @@ window.DATA = {
    "sr": "Knez"
   },
   {
-   "key": "Голубая акула",
+   "key": "Blue shark",
    "latin": "Prionace glauca",
    "where": [
-    "Открытое море",
     "Open sea",
     "Otvoreno more"
    ],
@@ -1299,12 +1098,10 @@ window.DATA = {
     "—"
    ],
    "season": [
-    "Лето",
     "Summer",
     "Ljeto"
    ],
    "rule": [
-    "Акулы и скаты в Черногории в основном под защитой: не добывать, живыми отпускать, список видов уточняйте в клубе.",
     "Sharks and rays are mostly protected in Montenegro: do not keep them, release alive, ask a club for the species list.",
     "Ajkule i raže su u Crnoj Gori uglavnom zaštićene: ne zadržavati, žive otpustiti, spisak vrsta pitajte klub."
    ],
@@ -1313,30 +1110,25 @@ window.DATA = {
    "sr": "Pas"
   },
   {
-   "key": "Кошачья акула",
+   "key": "Small-spotted catshark",
    "latin": "Scyliorhinus canicula",
    "where": [
-    "Дно, 10–400 м",
     "Bottom, 10–400 m",
     "Dno, 10–400 m"
    ],
    "bait": [
-    "Случайный улов на кусочки рыбы",
     "Incidental catch on fish pieces",
     "Slučajan ulov na komade ribe"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Акулы и скаты в Черногории в основном под защитой: не добывать, живыми отпускать, список видов уточняйте в клубе.",
     "Sharks and rays are mostly protected in Montenegro: do not keep them, release alive, ask a club for the species list.",
     "Ajkule i raže su u Crnoj Gori uglavnom zaštićene: ne zadržavati, žive otpustiti, spisak vrsta pitajte klub."
    ],
@@ -1345,30 +1137,25 @@ window.DATA = {
    "sr": "Mačka"
   },
   {
-   "key": "Испанская макрель (ставрида: локарда)",
+   "key": "Chub mackerel",
    "latin": "Scomber japonicus",
    "where": [
-    "Косяки в толще воды",
     "Schools in mid-water",
     "Jata u sredini vode"
    ],
    "bait": [
-    "Самодур, мелкие блёсны",
     "Sabiki rig, small spoons",
     "Sabiki, sitne varalice"
    ],
    "hours": [
-    "Утро и вечер",
     "Morning and evening",
     "Jutro i veče"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1377,30 +1164,25 @@ window.DATA = {
    "sr": "Lokarda"
   },
   {
-   "key": "Ставрида",
+   "key": "Horse mackerel",
    "latin": "Trachurus trachurus",
    "where": [
-    "Косяки у дна и в толще, огни порта ночью",
     "Schools near the bottom and mid-water, harbour lights at night",
     "Jata uz dno i u sredini, svjetla luke noću"
    ],
    "bait": [
-    "Самодур, кусочки рыбы",
     "Sabiki rig, fish pieces",
     "Sabiki, komadi ribe"
    ],
    "hours": [
-    "Сумерки и ночь",
     "Dusk and night",
     "Sumrak i noć"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1409,30 +1191,25 @@ window.DATA = {
    "sr": "Šarun"
   },
   {
-   "key": "Анчоус",
+   "key": "European anchovy",
    "latin": "Engraulis encrasicolus",
    "where": [
-    "Косяки у поверхности, часто ночью у света",
     "Surface schools, often at night under lights",
     "Jata uz površinu, često noću uz svjetlo"
    ],
    "bait": [
-    "Мелкий самодур. Часто нужен как живец.",
     "Small sabiki rig. Often wanted as live bait.",
     "Sitni sabiki. Često treba kao živac."
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Лето",
     "Summer",
     "Ljeto"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1441,30 +1218,25 @@ window.DATA = {
    "sr": "Inćun"
   },
   {
-   "key": "Сардина",
+   "key": "European pilchard (sardine)",
    "latin": "Sardina pilchardus",
    "where": [
-    "Косяки у поверхности",
     "Surface schools",
     "Jata uz površinu"
    ],
    "bait": [
-    "Мелкий самодур. Хороша на живца и на кусочки.",
     "Small sabiki rig. Good as live bait and cut bait.",
     "Sitni sabiki. Dobra kao živac i kao komadi."
    ],
    "hours": [
-    "Ночь и рассвет",
     "Night and dawn",
     "Noć i zora"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1473,30 +1245,25 @@ window.DATA = {
    "sr": "Srdela"
   },
   {
-   "key": "Осьминог",
+   "key": "Octopus",
    "latin": "Octopus vulgaris",
    "where": [
-    "Камни и расщелины, 1–50 м",
     "Rocks and crevices, 1–50 m",
     "Kamenje i pukotine, 1–50 m"
    ],
    "bait": [
-    "Краб на крючке, ловушка, кальмарная снасть",
     "Crab on a hook, trap, cephalopod gear",
     "Rak na udici, vrša, pribor za glavonošce"
    ],
    "hours": [
-    "Ночь и сумерки",
     "Night and dusk",
     "Noć i sumrak"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Минимальный вес 1 кг (по приказу 8/2011)",
     "Minimum weight 1 kg (Order 8/2011)",
     "Minimalna težina 1 kg (Naredba 8/2011)"
    ],
@@ -1505,30 +1272,25 @@ window.DATA = {
    "sr": "Hobotnica"
   },
   {
-   "key": "Каракатица",
+   "key": "Cuttlefish",
    "latin": "Sepia officinalis",
    "where": [
-    "Песок и водоросли, 2–50 м, весной у берега",
     "Sand and weed, 2–50 m, near shore in spring",
     "Pijesak i alge, 2–50 m, u proljeće uz obalu"
    ],
    "bait": [
-    "Эги, живая креветка, лампа до 400 кд",
     "Egi jigs, live shrimp, lamp up to 400 cd",
     "Egi, živa kozica, lampa do 400 cd"
    ],
    "hours": [
-    "Ночь и сумерки",
     "Night and dusk",
     "Noć i sumrak"
    ],
    "season": [
-    "Весна и осень",
     "Spring and autumn",
     "Proljeće i jesen"
    ],
    "rule": [
-    "Минимальный размер 12 см (по приказу 8/2011)",
     "Minimum size 12 cm (Order 8/2011)",
     "Minimalna veličina 12 cm (Naredba 8/2011)"
    ],
@@ -1537,30 +1299,25 @@ window.DATA = {
    "sr": "Sipa"
   },
   {
-   "key": "Тихоокеанский кальмар (тотан)",
+   "key": "European flying squid",
    "latin": "Todarodes sagittatus",
    "where": [
-    "Открытая вода, ночью ближе к поверхности",
     "Open water, closer to the surface at night",
     "Otvorena voda, noću bliže površini"
    ],
    "bait": [
-    "Эги, лампа до 400 кд",
     "Egi jigs, lamp up to 400 cd",
     "Egi, lampa do 400 cd"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Осень – зима",
     "Autumn – winter",
     "Jesen – zima"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1569,30 +1326,25 @@ window.DATA = {
    "sr": "Totan"
   },
   {
-   "key": "Мускусный осьминог",
+   "key": "Musky octopus",
    "latin": "Eledone moschata",
    "where": [
-    "Песок и ил, 20–200 м",
     "Sand and mud, 20–200 m",
     "Pijesak i mulj, 20–200 m"
    ],
    "bait": [
-    "Обычно попадает в ловушки",
     "Usually caught in traps",
     "Obično upada u vrše"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Круглый год",
     "Year-round",
     "Cijele godine"
    ],
    "rule": [
-    "Мин. размер в моих источниках не найден, уточните в клубе",
     "No minimum size found in my sources, ask a club",
     "Minimalna veličina nije nađena u mojim izvorima, pitajte klub"
    ],
@@ -1601,30 +1353,25 @@ window.DATA = {
    "sr": "Mušun"
   },
   {
-   "key": "Лангуст",
+   "key": "European spiny lobster",
    "latin": "Palinurus elephas",
    "where": [
-    "Скалы и пещеры, 20–100 м",
     "Rocks and caves, 20–100 m",
     "Stijene i pećine, 20–100 m"
    ],
    "bait": [
-    "Ловушка (одна на человека)",
     "Trap (one per person)",
     "Vrša (jedna po osobi)"
    ],
    "hours": [
-    "Ночь",
     "Night",
     "Noć"
    ],
    "season": [
-    "Лето – осень",
     "Summer – autumn",
     "Ljeto – jesen"
    ],
    "rule": [
-    "Минимальный размер 28 см (по приказу 8/2011). Сроки запрета уточняйте в клубе.",
     "Minimum size 28 cm (Order 8/2011). Ask a club about closed periods.",
     "Minimalna veličina 28 cm (Naredba 8/2011). Lovostaj pitajte klub."
    ],
@@ -1635,52 +1382,42 @@ window.DATA = {
  ],
  "rules": [
   [
-   "Нужно разрешение (на год или временное до 30 дней для иностранцев). Выдают рыболовные клубы муниципалитетов.",
    "A permit is required (annual, or temporary up to 30 days for foreigners). Issued by municipal fishing clubs.",
    "Potrebna je dozvola (godišnja ili privremena do 30 dana za strance). Izdaju je ribolovački klubovi općina."
   ],
   [
-   "Улов за сутки: до 5 кг рыбы и других морских организмов плюс один экземпляр тяжелее 5 кг (по новому закону 2025 года; по прежним правилам было 3 кг). Продавать улов нельзя.",
    "Daily catch: up to 5 kg of fish and other marine organisms plus one specimen over 5 kg (under the 2025 law; the earlier rules said 3 kg). Selling the catch is not allowed.",
    "Dnevni ulov: do 5 kg ribe i drugih morskih organizama plus jedan primjerak teži od 5 kg (po novom zakonu iz 2025; ranija pravila su imala 3 kg). Prodaja ulova nije dozvoljena."
   ],
   [
-   "Крупная рыба (тунец, меч-рыба): отдельная суточная лицензия, AIS на судне, уведомление за час до возвращения, электронный журнал улова.",
    "Big game (tuna, swordfish): a special daily licence, AIS on the vessel, notification an hour before landing, an electronic catch log.",
    "Krupna riba (tunj, sabljarka): posebna dnevna dozvola, AIS na plovilu, obavijest sat prije povratka, elektronski dnevnik ulova."
   ],
   [
-   "Снасти: ручные и троллинговые лески, до 2 удочек (до 3 крючков на каждой), до 2 снастей для головоногих (лампа до 400 кд), 1 ловушка. Ярусы запрещены.",
    "Gear: handlines and trolling lines, up to 2 rods (up to 3 hooks each), up to 2 cephalopod lines (lamp up to 400 cd), 1 trap. Longlines are banned.",
    "Pribor: ručni pribor i trolling, do 2 štapa (do 3 udice na svakom), do 2 pribora za glavonošce (lampa do 400 cd), 1 vrša. Parangali su zabranjeni."
   ],
   [
-   "Подводная охота: только на задержке дыхания, без акваланга, с буем, только днём, младше 18 лет нельзя.",
    "Spearfishing: breath-hold only, no scuba, with a marker buoy, daytime only, not for under 18.",
    "Podvodni ribolov: samo na dah, bez ronilačke opreme, uz plovak, samo danju, ne za mlađe od 18 godina."
   ],
   [
-   "Нельзя ловить в портах, на подходах к ним и на якорных стоянках, а на организованных пляжах с 1 мая по 1 октября в светлое время.",
    "No fishing in ports, their approaches and anchorages, and on organised beaches from 1 May to 1 October in daylight.",
    "Zabranjen ribolov u lukama, prilazima i sidrištima, a na uređenim plažama od 1. maja do 1. oktobra u toku dana."
   ],
   [
-   "Под защитой весь год: красный коралл, благородная пинна, морские коньки, морские черепахи, дельфины, многие акулы и скаты, луна-рыба, морской финик. Пойманных живыми отпускать.",
    "Protected all year: red coral, noble pen shell, seahorses, sea turtles, dolphins, many sharks and rays, ocean sunfish, date mussel. Release them alive.",
    "Zaštićeni cijele godine: crveni koralj, plemenita periska, morski konjici, morske kornjače, delfini, mnoge ajkule i raže, mjesečina, prstac. Žive otpustiti."
   ],
   [
-   "Штраф за нарушения до 2000 €, возможна конфискация снастей и временный запрет.",
    "Fines for violations up to €2,000, with possible gear confiscation and a temporary ban.",
    "Kazne za prekršaje do 2.000 €, uz moguće oduzimanje pribora i privremenu zabranu."
   ],
   [
-   "Важно: это сводка из открытых публикаций, а не юридическая консультация. Закон о морском рыболовстве обновлялся в 2025 году, и я не нашёл официальных дат закрытых сезонов и актуальной таблицы размеров. Размеры ниже взяты из приказа 8/2011. Перед рыбалкой уточните правила в клубе или в Министерстве сельского хозяйства.",
    "Important: this is a summary from public sources, not legal advice. The marine fisheries law was updated in 2025, and I did not find official closed-season dates or a current size table. Sizes below come from Order 8/2011. Before fishing, check the rules with a club or the Ministry of Agriculture.",
    "Važno: ovo je sažetak iz javnih izvora, a ne pravni savjet. Zakon o morskom ribarstvu je obnovljen 2025, a nisam našao službene datume lovostaja ni aktuelnu tabelu veličina. Veličine ispod su iz Naredbe 8/2011. Prije ribolova provjerite pravila u klubu ili u Ministarstvu poljoprivrede."
   ],
   [
-   "Источники: kotorfisherman.com (регламент 2025), adriaticnature.com, FAO AdriaMed (Montenegro).",
    "Sources: kotorfisherman.com (2025 regulations), adriaticnature.com, FAO AdriaMed (Montenegro).",
    "Izvori: kotorfisherman.com (propisi 2025), adriaticnature.com, FAO AdriaMed (Crna Gora)."
   ]
@@ -2165,7 +1902,7 @@ window.DATA = {
  },
  "shore": [
   {
-   "name": "Любая рыба (общий сезон)",
+   "name": "Any fish (general season)",
    "season": [
     4,
     4,
@@ -2184,7 +1921,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Сибас",
+   "name": "Sea bass",
    "season": [
     8,
     8,
@@ -2203,7 +1940,7 @@ window.DATA = {
    "surf": true
   },
   {
-   "name": "Дорадо",
+   "name": "Gilthead bream",
    "season": [
     4,
     4,
@@ -2222,7 +1959,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Белый сарг",
+   "name": "White seabream",
    "season": [
     8,
     8,
@@ -2241,7 +1978,7 @@ window.DATA = {
    "surf": true
   },
   {
-   "name": "Пагр",
+   "name": "Common seabream",
    "season": [
     5,
     5,
@@ -2260,7 +1997,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Зубан",
+   "name": "Common dentex",
    "season": [
     5,
     5,
@@ -2279,7 +2016,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Групер тёмный",
+   "name": "Dusky grouper",
    "season": [
     2,
     2,
@@ -2298,7 +2035,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Кефаль",
+   "name": "Mullet",
    "season": [
     4,
     4,
@@ -2317,7 +2054,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Луфарь",
+   "name": "Bluefish",
    "season": [
     3,
     3,
@@ -2336,7 +2073,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Баракуда",
+   "name": "Barracuda",
    "season": [
     2,
     2,
@@ -2355,7 +2092,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Лихия",
+   "name": "Leerfish",
    "season": [
     2,
     2,
@@ -2374,7 +2111,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Гоф (сериола)",
+   "name": "Amberjack (gof)",
    "season": [
     2,
     2,
@@ -2393,7 +2130,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Тунец",
+   "name": "Tuna",
    "season": [
     1,
     1,
@@ -2412,7 +2149,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Пеламида",
+   "name": "Bonito",
    "season": [
     2,
     2,
@@ -2431,7 +2168,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Кальмар",
+   "name": "Squid",
    "season": [
     8,
     7,
@@ -2450,7 +2187,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Осьминог",
+   "name": "Octopus",
    "season": [
     7,
     7,
@@ -2469,7 +2206,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Каракатица",
+   "name": "Cuttlefish",
    "season": [
     5,
     6,
@@ -2488,7 +2225,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Скумбрия",
+   "name": "Mackerel",
    "season": [
     3,
     3,
@@ -2507,7 +2244,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Ставрида",
+   "name": "Horse mackerel",
    "season": [
     3,
     3,
@@ -2526,7 +2263,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Барабуля",
+   "name": "Striped red mullet",
    "season": [
     4,
     4,
@@ -2545,7 +2282,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Ласкирь",
+   "name": "Annular seabream",
    "season": [
     3,
     3,
@@ -2564,7 +2301,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Сарган",
+   "name": "Garfish",
    "season": [
     3,
     4,
@@ -2585,7 +2322,7 @@ window.DATA = {
  ],
  "boat": [
   {
-   "name": "Любая рыба (общий сезон)",
+   "name": "Any fish (general season)",
    "season": [
     4,
     4,
@@ -2604,7 +2341,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Гоф (сериола)",
+   "name": "Amberjack (gof)",
    "season": [
     2,
     2,
@@ -2623,7 +2360,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Тунец",
+   "name": "Tuna",
    "season": [
     1,
     1,
@@ -2642,7 +2379,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Махи-махи",
+   "name": "Mahi-mahi",
    "season": [
     1,
     1,
@@ -2661,7 +2398,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Групер тёмный",
+   "name": "Dusky grouper",
    "season": [
     2,
     2,
@@ -2680,7 +2417,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Пеламида",
+   "name": "Bonito",
    "season": [
     2,
     2,
@@ -2699,7 +2436,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Луфарь",
+   "name": "Bluefish",
    "season": [
     3,
     3,
@@ -2718,7 +2455,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Баракуда",
+   "name": "Barracuda",
    "season": [
     2,
     2,
@@ -2737,7 +2474,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Лихия",
+   "name": "Leerfish",
    "season": [
     2,
     2,
@@ -2756,7 +2493,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Сибас",
+   "name": "Sea bass",
    "season": [
     8,
     8,
@@ -2775,7 +2512,7 @@ window.DATA = {
    "surf": true
   },
   {
-   "name": "Дорадо",
+   "name": "Gilthead bream",
    "season": [
     4,
     4,
@@ -2794,7 +2531,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Пагр",
+   "name": "Common seabream",
    "season": [
     5,
     5,
@@ -2813,7 +2550,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Зубан",
+   "name": "Common dentex",
    "season": [
     5,
     5,
@@ -2832,7 +2569,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Кальмар",
+   "name": "Squid",
    "season": [
     8,
     7,
@@ -2851,7 +2588,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Осьминог",
+   "name": "Octopus",
    "season": [
     7,
     7,
@@ -2870,7 +2607,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Каракатица",
+   "name": "Cuttlefish",
    "season": [
     5,
     6,
@@ -2889,7 +2626,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Скумбрия",
+   "name": "Mackerel",
    "season": [
     3,
     3,
@@ -2908,7 +2645,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Ставрида",
+   "name": "Horse mackerel",
    "season": [
     3,
     3,
@@ -2927,7 +2664,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Барабуля",
+   "name": "Striped red mullet",
    "season": [
     4,
     4,
@@ -2946,7 +2683,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Ласкирь",
+   "name": "Annular seabream",
    "season": [
     3,
     3,
@@ -2965,7 +2702,7 @@ window.DATA = {
    "surf": false
   },
   {
-   "name": "Сарган",
+   "name": "Garfish",
    "season": [
     3,
     4,
@@ -2985,118 +2722,95 @@ window.DATA = {
   }
  ],
  "fishLabels": {
-  "Любая рыба (общий сезон)": [
-   "Любая рыба (общий сезон)",
+  "Any fish (general season)": [
    "Any fish (general season)",
    "Bilo koja riba (opšta sezona)"
   ],
-  "Сибас": [
-   "Сибас",
+  "Sea bass": [
    "Sea bass",
    "Lubin"
   ],
-  "Дорадо": [
-   "Дорадо",
+  "Gilthead bream": [
    "Gilthead bream",
    "Orada"
   ],
-  "Луфарь": [
-   "Луфарь",
+  "Bluefish": [
    "Bluefish",
    "Lufar"
   ],
-  "Баракуда": [
-   "Баракуда",
+  "Barracuda": [
    "Barracuda",
    "Barakuda"
   ],
-  "Пеламида": [
-   "Пеламида",
+  "Bonito": [
    "Bonito",
    "Palamida"
   ],
-  "Кальмар": [
-   "Кальмар",
+  "Squid": [
    "Squid",
    "Lignja"
   ],
-  "Ласкирь": [
-   "Ласкирь",
+  "Annular seabream": [
    "Annular seabream",
    "Špar"
   ],
-  "Сарган": [
-   "Сарган",
+  "Garfish": [
    "Garfish",
    "Iglica"
   ],
-  "Гоф (сериола)": [
-   "Гоф (сериола)",
+  "Amberjack (gof)": [
    "Amberjack (gof)",
    "Gof"
   ],
-  "Тунец": [
-   "Тунец",
+  "Tuna": [
    "Tuna",
    "Tunj"
   ],
-  "Махи-махи": [
-   "Махи-махи",
+  "Mahi-mahi": [
    "Mahi-mahi",
    "Lampuga"
   ],
-  "Зубан": [
-   "Зубан",
+  "Common dentex": [
    "Common dentex",
    "Zubatac"
   ],
-  "Скумбрия": [
-   "Скумбрия",
+  "Mackerel": [
    "Mackerel",
    "Skuša"
   ],
-  "Осьминог": [
-   "Осьминог",
+  "Octopus": [
    "Octopus",
    "Hobotnica"
   ],
-  "Каракатица": [
-   "Каракатица",
+  "Cuttlefish": [
    "Cuttlefish",
    "Sipa"
   ],
-  "Белый сарг": [
-   "Белый сарг",
+  "White seabream": [
    "White seabream",
    "Šarag"
   ],
-  "Кефаль": [
-   "Кефаль",
+  "Mullet": [
    "Mullet",
    "Cipal"
   ],
-  "Ставрида": [
-   "Ставрида",
+  "Horse mackerel": [
    "Horse mackerel",
    "Šarun"
   ],
-  "Барабуля": [
-   "Барабуля",
-   "Red mullet",
+  "Striped red mullet": [
+   "Striped red mullet",
    "Trlja"
   ],
-  "Лихия": [
-   "Лихия",
+  "Leerfish": [
    "Leerfish",
    "Lica"
   ],
-  "Пагр": [
-   "Пагр",
+  "Common seabream": [
    "Common seabream",
    "Pagar"
   ],
-  "Групер тёмный": [
-   "Групер",
+  "Dusky grouper": [
    "Dusky grouper",
    "Kirnja"
   ]

@@ -1,4 +1,4 @@
-// Главный файл: состояние, переключение вкладок, загрузка данных, запуск
+// Main file: state, tab switching, data loading, startup
 const APP_VERSION = '1.14.0';
 const STALE_MS = 30 * 60 * 1000;
 const WEATHER_RETRY_MS = 2 * 60 * 1000;
@@ -6,7 +6,7 @@ const THEMES = ['sea', 'light', 'sand'];
 const THEME_COLORS = { sea: ['#0B5C8E', '#0A1822'], light: ['#F6F7F5', '#F6F7F5'], sand: ['#F5ECDD', '#F5ECDD'] };
 
 const S = {
-  region: 'Херцег-Нови', selected: null, boat: false, fish: null,
+  region: 'Herceg Novi', selected: null, boat: false, fish: null,
   data: null, error: false, days: [], hourly: null, air: null,
   slot: 0, loadedAt: 0, staleTry: 0,
   mySpots: [], tab: 0, showSettings: false, mapFocus: null, pick: null,
@@ -19,7 +19,7 @@ const S = {
 const $ = id => document.getElementById(id);
 let lastTab = -1;
 
-// ---------- Действия ----------
+// ---------- Actions ----------
 const A = {
   rerender() { render(); },
   openSettings() { S.showSettings = true; render(); },
@@ -46,7 +46,7 @@ const A = {
     Store.set(S.boat ? 'fish_boat' : 'fish_shore', S.fish.name);
     render();
   },
-  // выбор страны: ставит язык страны (если просили), районы, точку и перезагружает данные
+  // country choice: sets the country's language (if requested), regions, the point, and reloads data
   setCountry(code, withLang) {
     Country.set(code);
     if (withLang) Lang.set(Country.data.lang);
@@ -77,7 +77,7 @@ const A = {
     navigator.geolocation.getCurrentPosition(pos => {
       const acc = Math.round(pos.coords.accuracy || -1);
       S.gps = { code: acc > 200 ? 3 : 2, acc, loading: false };
-      S.selected = { name: 'Моё место', lat: pos.coords.latitude, lon: pos.coords.longitude };
+      S.selected = { name: 'My location', lat: pos.coords.latitude, lon: pos.coords.longitude };
       S.reload();
     }, err => {
       S.gps = { code: err && err.code === 1 ? 5 : 1, acc: 0, loading: false };
@@ -88,8 +88,8 @@ const A = {
   showOnMap(p) { S.mapFocus = p; S.pick = null; S.tab = 3; render(true); },
   updateBanner() {
     return h('div', { class: 'warn caution row' },
-      h('span', { class: 'grow' }, tr('Доступна новая версия приложения.', 'A new version of the app is available.', 'Dostupna je nova verzija aplikacije.')),
-      btn(tr('Обновить', 'Update', 'Ažuriraj'), () => {
+      h('span', { class: 'grow' }, tr('A new version of the app is available.', 'Dostupna je nova verzija aplikacije.')),
+      btn(tr('Update', 'Ažuriraj'), () => {
         if (S.waitingWorker) S.waitingWorker.postMessage({ type: 'SKIP_WAITING' }); else location.reload();
       }, { primary: true }));
   }
@@ -104,10 +104,10 @@ const mapHooks = {
   picked(point) {
     const p = S.pick; S.pick = null;
     if (!p) return;
-    if (p.kind === 'location') { S.selected = { name: 'Точка на карте', lat: point.lat, lon: point.lon }; S.tab = 0; S.reload(); render(true); }
+    if (p.kind === 'location') { S.selected = { name: 'Map point', lat: point.lat, lon: point.lon }; S.tab = 0; S.reload(); render(true); }
     else if (p.kind === 'diary') { S.draft.point = point; S.diarySub = 0; S.tab = 4; render(true); }
     else if (p.kind === 'entry') {
-      // новая точка: условия подтянутся заново, если данные за этот день ещё доступны
+      // new point: conditions will be refetched if data for that day is still available
       const e = Diary.load().find(x => x.id === p.id);
       Diary.update(p.id, { lat: point.lat, lon: point.lon, pending: !!(e && (e.pending || canReload(e.time))) });
       S.pendingTriedAt = 0;
@@ -124,8 +124,8 @@ function pickFish(boat) {
   return list.find(f => f.name === name) || list[0];
 }
 
-// ---------- Загрузка данных ----------
-// keepOld: та же точка, данные просто устарели; старое остаётся на экране, пока не придёт новое
+// ---------- Data loading ----------
+// keepOld: same point, the data just went stale; the old data stays on screen until the new data arrives
 S.reload = function (keepOld) {
   const token = ++S.token, spot = S.selected;
   if (!keepOld) {
@@ -136,9 +136,9 @@ S.reload = function (keepOld) {
   const fail = fn => ok(() => { if (!keepOld) fn(); });
   const go = () => {
     loadSeaData(spot).then(ok(d => {
-      // Погода не пришла: через пару минут пробуем снова, море пока остаётся на экране
+      // Weather did not arrive: retry in a couple of minutes, the sea stays on screen meanwhile
       if (!d.weatherOk) setTimeout(() => { if (token === S.token) S.reload(true); }, WEATHER_RETRY_MS);
-      // Полные данные той же точки не заменяем неполными
+      // Do not replace full data for the same point with incomplete data
       if (d.weatherOk || !keepOld || !S.data || !S.data.weatherOk) { S.data = d; S.loadedAt = Date.now(); }
     })).catch(fail(() => { S.error = true; }));
     loadDays(spot).then(ok(d => { S.days = d; })).catch(fail(() => { S.days = []; }));
@@ -147,7 +147,7 @@ S.reload = function (keepOld) {
     loadStation(spot).then(ok(d => { S.station = d; })).catch(fail(() => { S.station = null; }));
   };
   if (spot.snap === false) {
-    // точки района проверяем по карте глубин и при необходимости сдвигаем на воду
+    // region points are checked against the depth map and moved onto water if needed
     const key = 'snap.' + spot.lat.toFixed(4) + ',' + spot.lon.toFixed(4);
     const cached = Store.get(key, null);
     const apply = p => {
@@ -156,7 +156,7 @@ S.reload = function (keepOld) {
     };
     if (cached) { apply(cached); go(); return; }
     if (spot.shore) {
-      // «Берег»: данные грузим сразу, а точку сдвигаем в фоне; если сдвинулась, загружаем заново
+      // "Shore": load data right away and move the point in the background; if it moved, reload
       const la0 = spot.lat, lo0 = spot.lon;
       go();
       snapToWater(la0, lo0, true).then(p => {
@@ -176,7 +176,7 @@ S.reload = function (keepOld) {
   go();
 };
 
-// Вернулись на страницу, а данным больше получаса: обновляем. События приходят парами, поэтому не чаще раза в минуту
+// Came back to the page and the data is older than half an hour: refresh. Events arrive in pairs, so no more than once a minute
 function refreshIfStale() {
   const now = Date.now();
   if (document.hidden || S.picker || !S.loadedAt || now - S.loadedAt <= STALE_MS || now - S.staleTry < 60000) return;
@@ -184,14 +184,14 @@ function refreshIfStale() {
   S.reload(true);
 }
 
-// не перерисовываем под руками, пока человек печатает
+// do not redraw under the user's hands while they are typing
 function softRender() {
   const a = document.activeElement;
   if (a && ['INPUT', 'TEXTAREA', 'SELECT'].includes(a.tagName) && $('view').contains(a)) { S.pending = true; return; }
   render();
 }
 
-// ---------- Отрисовка ----------
+// ---------- Rendering ----------
 function render(force) {
   const view = $('view'), nav = $('tabs');
   document.body.classList.toggle('picking', S.picker);
@@ -240,19 +240,19 @@ function render(force) {
   document.documentElement.lang = Lang.current;
 }
 
-// ---------- Всплывающая подсказка: как поставить сайт на iPhone как приложение ----------
-// На iPhone нельзя поставить приложение с сайта, зато сайт можно добавить на экран «Домой»:
-// значок, полный экран, работа без связи. Многие об этом не знают, поэтому показываем окно сверху.
-// Только iPhone/iPad, только если сайт ещё не открыт со значка. «Понятно» скрывает навсегда,
-// «Позже» на 7 дней.
+// ---------- Pop-up hint: how to put the site on an iPhone as an app ----------
+// An iPhone cannot install an app from a website, but a site can be added to the Home Screen:
+// icon, full screen, works offline. Many people do not know this, so we show a banner at the top.
+// iPhone/iPad only, and only if the site is not already opened from the icon. "Got it" hides it forever,
+// "Later" for 7 days.
 const HINT_LATER_MS = 7 * 86400000;
 function iosInstallState() {
   const ua = navigator.userAgent;
-  // iPadOS притворяется Mac, отличаем по сенсорному экрану
+  // iPadOS pretends to be a Mac; tell them apart by the touch screen
   const ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
   const standalone = window.navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
   if (!ios || standalone) return null;
-  // встроенные браузеры (Telegram, Instagram, Facebook, Google) и другие браузеры ставить на экран не умеют
+  // in-app browsers (Telegram, Instagram, Facebook, Google) and other browsers cannot add to the Home Screen
   const safari = /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|GSA|YaBrowser|Instagram|FBAN|FBAV|Line\/|Telegram/.test(ua);
   return { safari };
 }
@@ -267,7 +267,7 @@ function shareIcon() {
 function showInstallHint() {
   const st = iosInstallState();
   if (!st || Store.get('hint_closed', false) || Date.now() < Store.get('hint_later', 0)) return;
-  // пока открыт выбор страны, ждём
+  // wait while the country picker is open
   if (S.picker || S.showSettings) { setTimeout(showInstallHint, 3000); return; }
   if (document.querySelector('.ihint')) return;
   const close = forever => {
@@ -279,28 +279,23 @@ function showInstallHint() {
     h('div', { class: 'ih-card' },
       h('div', { class: 'row' },
         h('img', { class: 'ih-app', src: 'apple-touch-icon.png', alt: '' }),
-        h('b', { class: 'grow' }, tr('Поставьте приложение на iPhone', 'Install the app on your iPhone', 'Instalirajte aplikaciju na iPhone')),
+        h('b', { class: 'grow' }, tr('Install the app on your iPhone', 'Instalirajte aplikaciju na iPhone')),
         h('button', { class: 'gear', type: 'button', 'aria-label': 'close', onclick: () => close(false) }, '×')),
-      h('p', { class: 'small' }, tr('Сайт работает как приложение: значок на экране, полный экран и прогноз без связи. Бесплатно, займёт несколько секунд.',
-        'The site works as an app: an icon on your screen, full screen and the forecast offline. Free, takes a few seconds.',
+      h('p', { class: 'small' }, tr('The site works as an app: an icon on your screen, full screen and the forecast offline. Free, takes a few seconds.',
         'Sajt radi kao aplikacija: ikona na ekranu, cijeli ekran i prognoza bez veze. Besplatno, traje nekoliko sekundi.')),
-      st.safari ? null : h('p', { class: 'small err' }, tr('Сейчас сайт открыт не в Safari. Откройте его в Safari: меню ··· или значок компаса → «Открыть в Safari».',
-        'The site is not open in Safari right now. Open it in Safari: the ··· menu or the compass icon → “Open in Safari”.',
+      st.safari ? null : h('p', { class: 'small err' }, tr('The site is not open in Safari right now. Open it in Safari: the ··· menu or the compass icon → “Open in Safari”.',
         'Sajt sada nije otvoren u Safariju. Otvorite ga u Safariju: meni ··· ili ikona kompasa → „Otvori u Safariju“.')),
       h('ol', { class: 'ih-steps' },
-        step(1, tr('Нажмите «Поделиться» в Safari', 'Tap “Share” in Safari', 'Dodirnite „Podijeli“ u Safariju'), ' ', shareIcon()),
-        step(2, tr('Выберите «На экран „Домой“». Если не видно, пролистайте список вниз.',
-          'Choose “Add to Home Screen”. If you cannot see it, scroll the list down.',
+        step(1, tr('Tap “Share” in Safari', 'Dodirnite „Podijeli“ u Safariju'), ' ', shareIcon()),
+        step(2, tr('Choose “Add to Home Screen”. If you cannot see it, scroll the list down.',
           'Izaberite „Dodaj na početni ekran“. Ako ga ne vidite, pomjerite listu nadolje.')),
-        step(3, tr('Нажмите «Добавить» и открывайте приложение с нового значка.',
-          'Tap “Add” and open the app from the new icon.',
+        step(3, tr('Tap “Add” and open the app from the new icon.',
           'Dodirnite „Dodaj“ i otvarajte aplikaciju s nove ikone.'))),
-      h('p', { class: 'small' }, tr('Дневник в значке и в Safari хранится отдельно, поэтому ведите его в значке.',
-        'The diary in the icon and in Safari is stored separately, so keep it in the icon.',
+      h('p', { class: 'small' }, tr('The diary in the icon and in Safari is stored separately, so keep it in the icon.',
         'Dnevnik u ikoni i u Safariju čuva se odvojeno, pa ga vodite u ikoni.')),
       h('div', { class: 'row ih-btns' },
-        btn(tr('Позже', 'Later', 'Kasnije'), () => close(false), { flat: true }),
-        btn(tr('Понятно', 'Got it', 'Razumijem'), () => close(true), { primary: true }))));
+        btn(tr('Later', 'Kasnije'), () => close(false), { flat: true }),
+        btn(tr('Got it', 'Razumijem'), () => close(true), { primary: true }))));
   document.body.appendChild(box);
   requestAnimationFrame(() => box.classList.add('on'));
 }
@@ -318,10 +313,10 @@ function registerWorker() {
         if (nw.state === 'installed' && navigator.serviceWorker.controller) flag(nw);
       });
     });
-    // проверка новой версии при каждом открытии
+    // check for a new version on every open
     reg.update().catch(() => {});
   }).catch(() => {});
-  // перезагружаем страницу только при обновлении, а не при самой первой установке
+  // reload the page only on an update, not on the very first install
   const hadController = !!navigator.serviceWorker.controller;
   let reloaded = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => {
@@ -331,7 +326,7 @@ function registerWorker() {
   });
 }
 
-// ---------- Запуск ----------
+// ---------- Startup ----------
 function init() {
   Lang.load();
   S.theme = Math.min(2, Math.max(0, Store.get('theme', 0)));
@@ -340,11 +335,7 @@ function init() {
   A.applyTheme();
   if (window.matchMedia) matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => A.applyTheme());
 
-  // 1.6.1: «Зубатка» переименована в «Зубан» (Dentex dentex)
-  ['fish_boat', 'fish_shore'].forEach(k => { if (Store.get(k, null) === 'Зубатка') Store.set(k, 'Зубан'); });
-  const dl = Store.get('diary', []);
-  if (dl.some(e => e.fish === 'Зубатка')) Store.set('diary', dl.map(e => e.fish === 'Зубатка' ? Object.assign({}, e, { fish: 'Зубан' }) : e));
-  // Ссылки со страниц стран (ru/croatia.html и т.п.): ?c=HR&r=Пула&lang=hr
+  // Links from country pages (en/croatia.html etc.): ?c=HR&r=Pula&lang=hr
   try {
     const qs = new URLSearchParams(location.search);
     const qc = qs.get('c');
@@ -356,7 +347,7 @@ function init() {
     }
     if (qs.get('lang') && !Store.get('lang', null)) Lang.set(qs.get('lang'));
     if (location.search) history.replaceState(null, '', location.pathname);
-  } catch (e) { /* без параметров */ }
+  } catch (e) { /* no parameters */ }
   const savedCountry = Country.saved();
   Country.apply(savedCountry || 'ME');
   refreshRegions();

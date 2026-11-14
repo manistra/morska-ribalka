@@ -1,4 +1,4 @@
-// Карта: Leaflet (подгружается при первом открытии вкладки), спутник Esri, глубины EMODnet
+// Map: Leaflet (loaded on first open of the tab), Esri satellite, EMODnet depths
 const LEAFLET_JS = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
 const LEAFLET_CSS = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
 
@@ -21,22 +21,22 @@ function loadLeaflet() {
 
 const MapUI = {
   map: null,
-  overlay: null,   // слой с маркерами
+  overlay: null,   // marker layer
   depthLayer: null,
   box: null,
   sheet: null,
-  point: null,     // выбранная нажатием точка {lat, lon}
+  point: null,     // point selected by tapping {lat, lon}
   pointMarker: null,
 
   alive() { return !!(this.map && this.box && document.body.contains(this.box)); },
 
   destroy() {
-    if (this.map) { try { this.map.remove(); } catch (e) { /* уже удалена */ } }
+    if (this.map) { try { this.map.remove(); } catch (e) { /* already removed */ } }
     this.map = null; this.overlay = null; this.depthLayer = null; this.box = null;
     this.sheet = null; this.point = null; this.pointMarker = null;
   },
 
-  // Строит экран карты и возвращает DOM-элемент
+  // Builds the map screen and returns a DOM element
   build(S, hooks) {
     this.destroy();
     const mapDiv = h('div', { class: 'map' });
@@ -47,9 +47,8 @@ const MapUI = {
     this.hooks = hooks;
     loadLeaflet().then(() => this._init(mapDiv, S, hooks)).catch(() => {
       mapDiv.appendChild(h('div', { class: 'card', style: { margin: '16px' } },
-        h('h3', null, tr('Карта недоступна', 'Map unavailable', 'Karta nije dostupna')),
-        h('p', null, tr('Не удалось загрузить карту. Проверьте интернет и откройте вкладку ещё раз.',
-          'Could not load the map. Check your internet connection and open the tab again.',
+        h('h3', null, tr('Map unavailable', 'Karta nije dostupna')),
+        h('p', null, tr('Could not load the map. Check your internet connection and open the tab again.',
           'Nije moguće učitati kartu. Provjerite internet i ponovo otvorite karticu.'))));
     });
     return box;
@@ -92,16 +91,16 @@ const MapUI = {
         if (this.map.hasLayer(this.depthLayer)) this.map.removeLayer(this.depthLayer); else this.depthLayer.addTo(this.map);
         this.renderTop(S);
       }
-    }, tr('Глубины', 'Depths', 'Dubine')));
-    top.appendChild(h('button', { class: 'chip', type: 'button', onclick: () => this.locate(S) }, tr('📍 Я здесь', '📍 Me', '📍 Ja')));
+    }, tr('Depths', 'Dubine')));
+    top.appendChild(h('button', { class: 'chip', type: 'button', onclick: () => this.locate(S) }, tr('📍 Me', '📍 Ja')));
     if (S.pick) {
       top.appendChild(h('div', { class: 'hint' },
-        tr('Нажмите на карту: ', 'Tap the map: ', 'Dodirnite kartu: ') + S.pick.label,
-        h('button', { class: 'chip', type: 'button', onclick: () => this.hooks.cancelPick() }, tr('Отмена', 'Cancel', 'Otkaži'))));
+        tr('Tap the map: ', 'Dodirnite kartu: ') + S.pick.label,
+        h('button', { class: 'chip', type: 'button', onclick: () => this.hooks.cancelPick() }, tr('Cancel', 'Otkaži'))));
     }
   },
 
-  showHint() { /* подсказка уже в верхней панели */ },
+  showHint() { /* hint is already in the top bar */ },
 
   locate(S) {
     if (!navigator.geolocation) return;
@@ -111,8 +110,7 @@ const MapUI = {
       this.onTap(pos.coords.latitude, pos.coords.longitude, S);
     }, () => {
       this.sheet.classList.remove('hidden');
-      this.sheet.replaceChildren(h('p', null, tr('Не удалось получить позицию. Разрешите геолокацию в настройках телефона.',
-        'Could not get your position. Allow location access in the phone settings.',
+      this.sheet.replaceChildren(h('p', null, tr('Could not get your position. Allow location access in the phone settings.',
         'Nije moguće dobiti poziciju. Dozvolite lokaciju u postavkama telefona.')));
     }, { enableHighAccuracy: true, timeout: 20000, maximumAge: 10000 });
   },
@@ -150,22 +148,22 @@ const MapUI = {
     this.setPoint(lat, lon);
     const sheet = this.sheet;
     sheet.classList.remove('hidden');
-    const depthLine = h('p', { class: 'small' }, tr('Глубина: загрузка…', 'Depth: loading…', 'Dubina: učitavanje…'));
-    const nameInput = h('input', { class: 'field', type: 'text', placeholder: tr('Название места', 'Spot name', 'Naziv mjesta'), maxlength: 40 });
+    const depthLine = h('p', { class: 'small' }, tr('Depth: loading…', 'Dubina: učitavanje…'));
+    const nameInput = h('input', { class: 'field', type: 'text', placeholder: tr('Spot name', 'Naziv mjesta'), maxlength: 40 });
     const pick = S.pick;
     const row = h('div', { class: 'row wrap' });
     const point = { lat, lon };
     if (pick) {
-      row.appendChild(btn(tr('Выбрать эту точку', 'Use this point', 'Izaberi ovu tačku'), () => this.hooks.picked(point), { primary: true }));
+      row.appendChild(btn(tr('Use this point', 'Izaberi ovu tačku'), () => this.hooks.picked(point), { primary: true }));
     } else {
-      row.appendChild(btn(tr('Смотреть прогноз здесь', 'Forecast for this point', 'Prognoza za ovu tačku'),
-        () => this.hooks.useSpot({ name: 'Точка на карте', lat, lon }), { primary: true }));
+      row.appendChild(btn(tr('Forecast for this point', 'Prognoza za ovu tačku'),
+        () => this.hooks.useSpot({ name: 'Map point', lat, lon }), { primary: true }));
     }
     sheet.replaceChildren(
       h('div', { class: 'small' }, `${lat.toFixed(5)}, ${lon.toFixed(5)}`),
       depthLine, row,
       pick ? null : h('div', { class: 'row' }, nameInput,
-        btn(tr('Сохранить', 'Save', 'Sačuvaj'), () => {
+        btn(tr('Save', 'Sačuvaj'), () => {
           const name = nameInput.value.trim();
           if (!name) { nameInput.focus(); return; }
           this.hooks.saveSpot({ name, lat, lon });
@@ -175,11 +173,11 @@ const MapUI = {
     const d = await fetchDepth(lat, lon);
     if (!this.point || this.point.lat !== lat) return;
     let text;
-    if (!d) text = tr('Глубина: нет данных (сервис недоступен).', 'Depth: no data (service unavailable).', 'Dubina: nema podataka (servis nije dostupan).');
-    else if (d.avg <= -1) text = trv('Глубина ≈ {0} м', 'Depth ≈ {0} m', 'Dubina ≈ {0} m', [f0(-d.avg)]);
+    if (!d) text = tr('Depth: no data (service unavailable).', 'Dubina: nema podataka (servis nije dostupan).');
+    else if (d.avg <= -1) text = trv('Depth ≈ {0} m', 'Dubina ≈ {0} m', [f0(-d.avg)]);
     else if (!Number.isNaN(d.nearDepth)) {
-      text = trv('Берег. Рядом глубина до {0} м. Сетка EMODnet (~100 м) у кромки воды неточна.', 'Shoreline. Nearby depth reaches {0} m. The EMODnet grid (~100 m) is imprecise at the water\'s edge.', 'Obala. U blizini dubina doseže {0} m. EMODnet mreža (~100 m) je neprecizna uz samu obalu.', [f0(d.nearDepth)]);
-    } else text = tr('Суша.', 'Land.', 'Kopno.');
+      text = trv('Shoreline. Nearby depth reaches {0} m. The EMODnet grid (~100 m) is imprecise at the water\'s edge.', 'Obala. U blizini dubina doseže {0} m. EMODnet mreža (~100 m) je neprecizna uz samu obalu.', [f0(d.nearDepth)]);
+    } else text = tr('Land.', 'Kopno.');
     depthLine.textContent = text;
   },
 
