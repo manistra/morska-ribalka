@@ -2,7 +2,6 @@
 const APP_VERSION = '1.14.0';
 const STALE_MS = 30 * 60 * 1000;
 const WEATHER_RETRY_MS = 2 * 60 * 1000;
-const ANDROID_APK = 'app-release.apk';
 const THEMES = ['sea', 'light', 'sand'];
 const THEME_COLORS = { sea: ['#0B5C8E', '#0A1822'], light: ['#F6F7F5', '#F6F7F5'], sand: ['#F5ECDD', '#F5ECDD'] };
 

@@ -657,12 +657,6 @@ function renderSettings(S, A) {
       '“Video”: a boat and a tuna under water. “Fish”: a light animation that is easier on the phone. Turn it off if your phone drains quickly. A wide version of the video is used on a computer.',
       '„Video“: čamac i tunj pod vodom. „Ribe“: lagana animacija, manje opterećuje telefon. Isključite ako se telefon brzo prazni. Na računaru se koristi široka verzija videa.'))));
 
-  out.push(card(tr('Анонимная статистика', 'Anonymous statistics', 'Anonimna statistika'),
-    segmented([[true, tr('Вкл', 'On', 'Uključeno')], [false, tr('Выкл', 'Off', 'Isključeno')]], Stats.isOn(), v => { Stats.set(v); A.rerender(); }),
-    small(tr('Помогает понять, пользуются ли сайтом. Отправляются только открытие экранов, язык и страна. Дневник, фото и координаты не отправляются.',
-      'Helps understand whether the site is used. Only screen views, language and country are sent. The diary, photos and coordinates are never sent.',
-      'Pomaže da se vidi koristi li se sajt. Šalju se samo pregledi ekrana, jezik i država. Dnevnik, fotografije i koordinate se ne šalju.'))));
-
   out.push(feedbackCard(S, A.rerender));
   out.push(aboutCard(S, A));
   return out;
@@ -732,7 +726,5 @@ function aboutCard(S, A) {
   const privacyId = Lang.current === 'sr' ? 'hr' : Lang.current;
   c.appendChild(h('p', null, h('a', { class: 'link', href: 'privacy.html#' + privacyId, target: '_blank', rel: 'noopener' },
     tr('Политика конфиденциальности', 'Privacy policy', 'Politika privatnosti'))));
-  c.appendChild(h('p', { class: 'bold' }, 'Android'));
-  c.appendChild(h('p', null, h('a', { class: 'link', href: ANDROID_APK, onclick: () => Stats.event('apk_download') }, tr('Скачать версию для Android (APK)', 'Download the Android version (APK)', 'Preuzmi Android verziju (APK)'))));
   return c;
 }
