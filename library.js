@@ -165,7 +165,6 @@ function renderLibrary(S, rerender) {
     }
     rulesCard.appendChild(small(t3(rules[rules.length - 2])));
     rulesCard.appendChild(small(t3(rules[rules.length - 1])));
-    rulesCard.appendChild(feedbackForm(S, rerender, 'rules', TOPIC_RULES, Country.name()));
   }
   out.push(rulesCard);
 
@@ -199,7 +198,6 @@ function renderLibrary(S, rerender) {
             x.rec.forEach((r, i) => c.appendChild(recipeBlock(S, f.key, r, i, rerender)));
           }
         }
-        c.appendChild(feedbackForm(S, rerender, 'fish:' + f.key, TOPIC_FISH, libTitle(f) + ' (' + f.latin + ')'));
       }
       out.push(c);
     });

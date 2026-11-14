@@ -6,7 +6,7 @@ const RUNTIME = 'fishing-runtime';
 const SHELL = [
   './', 'index.html', 'style.css', 'manifest.webmanifest',
   'data.js', 'fishx.js', 'countries.js', 'trx-it.js', 'trx-el.js', 'trx-sq.js', 'rules-data.js', 'trx-sl.js', 'trx-hr.js', 'trx-de.js', 'trx-es.js', 'trx-tr.js', 'i18n.js', 'model.js', 'api.js', 'dom.js', 'diary.js',
-  'library.js', 'map.js', 'feedback.js', 'screens.js', 'bg.js', 'stats.js', 'app.js',
+  'library.js', 'map.js', 'screens.js', 'bg.js', 'stats.js', 'app.js',
   'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'
 ];
 
